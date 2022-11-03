@@ -20,10 +20,10 @@
             </q-input>
           </div>
         <div class="col-0.5  q-pa-lg">
-          <q-btn color="purple-5" label="inicio" />
+          <q-btn color="purple-5" label="inicio" href="/"/>
         </div>
         <div class="col-1 q-pa-lg">
-          <q-btn round color="purple-5" icon="add" />
+          <q-btn round color="purple-5" icon="add" href="#/nuevoAnuncio"/>
         </div>
         <div class="col-1 q-pa-sm">
           <q-btn round color="purple-5" icon="shopping_cart">
@@ -97,15 +97,15 @@ import MobileMenu from 'src/components/mobileMenu.vue'
 const linksList = [
   {
     title: 'Inicio',
-    link: 'https://quasar.dev'
+    link: '/'
   },
   {
     title: 'Nuevo anuncio',
-    link: 'https://github.com/quasarframework'
+    link: '#/nuevoAnuncio'
   },
   {
     title: 'Carrito',
-    link: 'https://chat.quasar.dev'
+    link: ''
   }
 ]
 
