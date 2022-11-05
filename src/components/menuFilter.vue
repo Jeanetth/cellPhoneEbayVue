@@ -20,7 +20,6 @@ export default ({
         { label: 'Nokia', value: 'nokia' },
         { label: 'Iphone', value: 'iphone' },
         { label: 'Xiaomi', value: 'xiami' }
-
       ]
     }
   }
