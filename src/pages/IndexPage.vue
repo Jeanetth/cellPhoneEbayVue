@@ -8,7 +8,7 @@
         <div class="row">
           <div class="col q-ma-lg ">
             <fieldset>
-              <legend> </legend>
+              <legend>&nbsp;</legend>
               <div class="row">
                 <div class="col-5 q-mr-sm ">
                   <q-input standout v-model="precio" type="number" min="0" prefix="Precio">
@@ -29,7 +29,7 @@
           </div>
           <div class="col q-ma-lg">
             <fieldset>
-              <legend> </legend>
+              <legend>&nbsp;</legend>
               <div class="row">
                 <div class="col-3 q-mt-md">
                   <spam>ordenado por</spam>
