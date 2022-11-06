@@ -34,10 +34,10 @@
                 <div class="col-5 q-ma-sm">
                   <q-btn square color="primary" icon="north" v-model="ordenPrecio" label="precio"/>
                 </div>
-              </div>
                 <div class="col-5 q-ma-sm">
                   <q-btn square color="primary"  v-model="fecha" label="fecha" />
                 </div>
+              </div>
             </fieldset>
           </div>
         </div>
@@ -57,8 +57,8 @@ export default defineComponent({
     return {
       precio: ref(''),
       hasta: ref(''),
-      ordenPrecio: ref('ordenPrecio'),
-      fecha: ref('fecha')
+      ordenPrecio: ref('true'),
+      fecha: ref('false')
     }
   }
 })
