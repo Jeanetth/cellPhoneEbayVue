@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <div class="row">
-      <div class="col-2 bg-purple-3">
+      <div class="col-2.5">
         <MenuFilter />
       </div>
       <div class="col">
