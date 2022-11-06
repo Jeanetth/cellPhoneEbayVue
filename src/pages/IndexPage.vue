@@ -1,23 +1,23 @@
 <template>
   <q-page>
     <div class="row">
-      <div class="col-2 bg-negative">
+      <div class="col-2 bg-purple-3">
         <MenuFilter />
       </div>
       <div class="col">
         <div class="row">
-          <div class="col q-ma-lg">
+          <div class="col q-ma-lg bg-purple-3">
             <fieldset>
               <legend> </legend>
               <div class="row">
-                <div class="col-5 q-ma-sm">
+                <div class="col-5 q-mr-sm bg-purple-3">
                   <q-input standout v-model="precio" type="number" min="0" prefix="Precio">
                     <template v-slot:append>
                       <q-icon name="paid" />
                     </template>
                   </q-input>
                 </div>
-                <div class="col-5 q-ma-sm">
+                <div class="col-5 q-mr-sm ">
                   <q-input standout v-model="hasta" type="number" min="0" prefix="Hasta">
                     <template v-slot:append>
                       <q-icon name="paid" />
@@ -31,10 +31,13 @@
             <fieldset>
               <legend> </legend>
               <div class="row">
+                <div class="col-3 q-mt-md">
+                  <spam>ordenado por</spam>
+                </div>
                 <div class="col-5 q-ma-sm">
                   <q-btn square color="primary" icon="north" v-model="ordenPrecio" label="precio"/>
                 </div>
-                <div class="col-5 q-ma-sm">
+                <div class="col-1 q-ma-sm">
                   <q-btn square color="primary"  v-model="fecha" label="fecha" />
                 </div>
               </div>
