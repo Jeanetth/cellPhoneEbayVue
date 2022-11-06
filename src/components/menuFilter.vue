@@ -1,10 +1,21 @@
 <template>
-    <div>
-        <q-toggle v-model="value" label="Nuevo"/>
-        </div>
-            <div class="q-pa-md" >
-        <q-option-group :options="options" type="checkbox" v-model="group" />
-        </div>
+  <div>
+    <q-toggle v-model="value" label="Nuevo"/>
+  </div>
+  <div>
+    <fieldset>
+    <legend> Marca </legend>
+      <q-list>
+        <q-item v-for="( marca, key) in marcas" :key="'sis'+ key" clickable v-ripple>
+          <q-item-section>
+            <q-checkbox v-model="marca.value" >{{marca.label}}
+              <q-badge color="orange" >{{marca.cantidad}}</q-badge>
+            </q-checkbox>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </fieldset>
+  </div>
 </template>
 <script>
 import { ref } from 'vue'
@@ -14,13 +25,14 @@ export default ({
     return {
       value: ref(false),
       group: ref([]),
-      options: [
-        { label: 'Samsung', value: 'samsung' },
-        { label: 'Huawei', value: 'huawei' },
-        { label: 'Nokia', value: 'nokia' },
-        { label: 'Iphone', value: 'iphone' },
-        { label: 'Xiaomi', value: 'xiami' }
-      ]
+      check1: ref(false),
+      marcas: ref([
+        { label: 'Samsung', value: false, cantidad: 4 },
+        { label: 'Huawei', value: false, cantidad: 4 },
+        { label: 'Nokia', value: false, cantidad: 4 },
+        { label: 'Iphone', value: false, cantidad: 4 },
+        { label: 'Xiaomi', value: false, cantidad: 4 }
+      ])
     }
   }
 })
