@@ -1,16 +1,16 @@
 <template>
   <q-page>
     <div class="row">
-      <div class="col-2.5">
-        <MenuFilter />
-      </div>
+        <div class="col-2.5">
+            <MenuFilter />
+        </div>
       <div class="col">
         <div class="row">
-          <div class="col q-ma-lg bg-purple-3">
+          <div class="col q-ma-lg ">
             <fieldset>
               <legend> </legend>
               <div class="row">
-                <div class="col-5 q-mr-sm bg-purple-3">
+                <div class="col-5 q-mr-sm ">
                   <q-input standout v-model="precio" type="number" min="0" prefix="Precio">
                     <template v-slot:append>
                       <q-icon name="paid" />
@@ -35,7 +35,7 @@
                   <spam>ordenado por</spam>
                 </div>
                 <div class="col-5 q-ma-sm">
-                  <q-btn square color="primary" icon="north" v-model="ordenPrecio" label="precio"/>
+                  <q-btn square color="primary" icon="north" type="submit" v-model="ordenPrecio" label="precio"/>
                 </div>
                 <div class="col-1 q-ma-sm">
                   <q-btn square color="primary"  v-model="fecha" label="fecha" />
@@ -60,8 +60,8 @@ export default defineComponent({
     return {
       precio: ref(''),
       hasta: ref(''),
-      ordenPrecio: ref('true'),
-      fecha: ref('false')
+      ordenPrecio: ref(true),
+      fecha: ref(false)
     }
   }
 })
