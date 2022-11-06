@@ -6,11 +6,11 @@
       </div>
       <div class="col">
         <div class="row">
-          <div class="col q-ma-lg bg-purple-3">
+          <div class="col q-ma-lg ">
             <fieldset>
-              <legend> </legend>
+              <legend>&nbsp;</legend>
               <div class="row">
-                <div class="col-5 q-mr-sm bg-purple-3">
+                <div class="col-5 q-mr-sm ">
                   <q-input standout v-model="precio" type="number" min="0" prefix="Precio">
                     <template v-slot:append>
                       <q-icon name="paid" />
@@ -29,7 +29,7 @@
           </div>
           <div class="col q-ma-lg">
             <fieldset>
-              <legend> </legend>
+              <legend>&nbsp;</legend>
               <div class="row">
                 <div class="col-3 q-mt-md">
                   <spam>ordenado por</spam>
