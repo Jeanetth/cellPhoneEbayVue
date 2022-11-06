@@ -34,11 +34,32 @@
                 <div class="col-3 q-mt-md">
                   <spam>ordenado por</spam>
                 </div>
-                <div class="col-5 q-ma-sm">
-                  <q-btn square color="primary" icon="north" type="submit" v-model="ordenPrecio" label="precio"/>
+                <div class="col-3 q-ma-sm">
+                  <q-btn-toggle
+                  v-model="ordenarPor"
+                  spread
+                  icon="north"
+                  no-caps
+                  toggle-color="purple"
+                  color="white"
+                  text-color="black"
+                  :options="[
+                    {label: 'Precio', value: 'precio'}
+                  ]"
+                />
                 </div>
-                <div class="col-1 q-ma-sm">
-                  <q-btn square color="primary"  v-model="fecha" label="fecha" />
+                <div class="col-3 q-ma-sm">
+                  <q-btn-toggle
+                  v-model="ordenarPor"
+                  spread
+                  no-caps
+                  toggle-color="purple"
+                  color="white"
+                  text-color="black"
+                  :options="[
+                    {label: 'Fecha', value: 'fecha'}
+                  ]"
+                />
                 </div>
               </div>
             </fieldset>
@@ -58,10 +79,9 @@ export default defineComponent({
   components: { MenuFilter },
   setup () {
     return {
+      ordenarPor: ref('one'),
       precio: ref(''),
-      hasta: ref(''),
-      ordenPrecio: ref(true),
-      fecha: ref(false)
+      hasta: ref('')
     }
   }
 })
