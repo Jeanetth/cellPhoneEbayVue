@@ -58,14 +58,14 @@
             </div>
           </div>
           <!--Row de Cards-->
-          <div class="row">
-            <div class="col bg-primary">1</div>
-            <div class="col bg-secondary">2</div>
-            <div class="col bg-negative">3</div>
-            <div class="col bg-positive">4</div>
-          </div>
+          <div class="row" v-for="n in text" :key="n">
+            <div class="col " v-for="n in 4" :key="n">
+            <div class="col bg-primary q-ma-sm"><CardsComponent/></div></div>
+            <div class="row">
+            <q-input v-model="text"></q-input></div>
         </div>
-      </div>
+          </div>
+          </div>
     </div>
     <div class="lt-md">
       <!--Solo para moviles-->
@@ -76,12 +76,14 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import MenuFilter from 'src/components/menuFilter.vue'
+import CardsComponent from 'src/components/cardsComponent.vue'
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { MenuFilter },
+  components: { MenuFilter, CardsComponent },
   setup () {
     return {
+      text: ref(8),
       ordenarPor: ref(''),
       precio: ref(''),
       hasta: ref('')
