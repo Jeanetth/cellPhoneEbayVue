@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="q-my-lg">
     <q-toggle v-model="nuevo" label="Nuevo" />
   </div>
   <!--marca-->
