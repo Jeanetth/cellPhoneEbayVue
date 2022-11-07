@@ -58,14 +58,14 @@
             </div>
           </div>
           <!--Row de Cards-->
-          <div class="row" v-for="n in 25 " :key="n">
-            <div class="col bg-primary q-ma-sm"><CardsComponent/></div>
-            <div class="col bg-secondary q-ma-sm"><CardsComponent/></div>
-            <div class="col bg-negative q-ma-sm"><CardsComponent/></div>
-            <div class="col bg-positive q-ma-sm"><CardsComponent/></div>
-          </div>
+          <div class="row" v-for="n in text" :key="n">
+            <div class="col " v-for="n in 4" :key="n">
+            <div class="col bg-primary q-ma-sm"><CardsComponent/></div></div>
+            <div class="row">
+            <q-input v-model="text"></q-input></div>
         </div>
-      </div>
+          </div>
+          </div>
     </div>
     <div class="lt-md">
       <!--Solo para moviles-->
@@ -83,6 +83,7 @@ export default defineComponent({
   components: { MenuFilter, CardsComponent },
   setup () {
     return {
+      text: ref(8),
       ordenarPor: ref(''),
       precio: ref(''),
       hasta: ref('')
