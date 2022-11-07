@@ -1,9 +1,11 @@
 <template>
   <q-page>
     <div class="row">
-        <div class="col-2.5">
-            <MenuFilter />
-        </div>
+      <div class="col-2.5">
+        <q-scroll-area style="height: 500px; width: 200px;">
+          <MenuFilter />
+        </q-scroll-area>
+      </div>
       <div class="col">
         <div class="row">
           <div class="col q-ma-lg ">
@@ -35,31 +37,16 @@
                   <spam>ordenado por</spam>
                 </div>
                 <div class="col-3 q-ma-sm">
-                  <q-btn-toggle
-                  v-model="ordenarPor"
-                  spread
-                  icon="north"
-                  no-caps
-                  toggle-color="purple"
-                  color="white"
-                  text-color="black"
-                  :options="[
-                    {label: 'Precio', value: 'precio'}
-                  ]"
-                />
+                  <q-btn-toggle v-model="ordenarPor" spread icon="north" no-caps toggle-color="purple" color="white"
+                    text-color="black" :options="[
+                      { label: 'Precio', value: 'precio' }
+                    ]" />
                 </div>
                 <div class="col-3 q-ma-sm">
-                  <q-btn-toggle
-                  v-model="ordenarPor"
-                  spread
-                  no-caps
-                  toggle-color="purple"
-                  color="white"
-                  text-color="black"
-                  :options="[
-                    {label: 'Fecha', value: 'fecha'}
-                  ]"
-                />
+                  <q-btn-toggle v-model="ordenarPor" spread no-caps toggle-color="purple" color="white"
+                    text-color="black" :options="[
+                      { label: 'Fecha', value: 'fecha' }
+                    ]" />
                 </div>
               </div>
             </fieldset>
@@ -71,15 +58,15 @@
 </template>
 
 <script>
-import MenuFilter from 'src/components/menuFilter.vue'
 import { defineComponent, ref } from 'vue'
+import MenuFilter from 'src/components/menuFilter.vue'
 
 export default defineComponent({
   name: 'IndexPage',
   components: { MenuFilter },
   setup () {
     return {
-      ordenarPor: ref('one'),
+      ordenarPor: ref(''),
       precio: ref(''),
       hasta: ref('')
     }
