@@ -58,11 +58,11 @@
             </div>
           </div>
           <!--Row de Cards-->
-          <div class="row">
-            <div class="col bg-primary">1</div>
-            <div class="col bg-secondary">2</div>
-            <div class="col bg-negative">3</div>
-            <div class="col bg-positive">4</div>
+          <div class="row" v-for="n in 25 " :key="n">
+            <div class="col bg-primary q-ma-sm"><CardsComponent/></div>
+            <div class="col bg-secondary q-ma-sm"><CardsComponent/></div>
+            <div class="col bg-negative q-ma-sm"><CardsComponent/></div>
+            <div class="col bg-positive q-ma-sm"><CardsComponent/></div>
           </div>
         </div>
       </div>
@@ -76,10 +76,11 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import MenuFilter from 'src/components/menuFilter.vue'
+import CardsComponent from 'src/components/cardsComponent.vue'
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { MenuFilter },
+  components: { MenuFilter, CardsComponent },
   setup () {
     return {
       ordenarPor: ref(''),
