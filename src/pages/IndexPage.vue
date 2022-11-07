@@ -59,7 +59,10 @@
           </div>
           <!--Row de Cards-->
           <div class="row">
-
+            <div class="col bg-primary">1</div>
+            <div class="col bg-secondary">2</div>
+            <div class="col bg-negative">3</div>
+            <div class="col bg-positive">4</div>
           </div>
         </div>
       </div>
