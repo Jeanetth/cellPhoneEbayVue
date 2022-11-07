@@ -1,13 +1,17 @@
 <template>
   <q-page>
+    <!--Solo para Pc-->
     <div class="gt-sm ">
       <div class="row">
+        <!--Area de filtro-->
         <div class="col-2.5">
           <q-scroll-area style="height: 500px; width: 200px;">
             <MenuFilter />
           </q-scroll-area>
         </div>
+        <!--Areas cards y inputs y botones-->
         <div class="col">
+          <!--Inputs y los dos botones, precio hasta-->
           <div class="row">
             <div class="col q-ma-lg ">
               <fieldset>
@@ -53,8 +57,15 @@
               </fieldset>
             </div>
           </div>
+          <!--Row de Cards-->
+          <div class="row">
+
+          </div>
         </div>
       </div>
+    </div>
+    <div class="lt-md">
+      <!--Solo para moviles-->
     </div>
   </q-page>
 </template>

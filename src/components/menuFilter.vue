@@ -2,6 +2,7 @@
   <div>
     <q-toggle v-model="nuevo" label="Nuevo" />
   </div>
+  <!--marca-->
   <div>
     <fieldset>
       <legend>&nbsp;Marca&nbsp;</legend>
@@ -16,7 +17,7 @@
       </q-list>
     </fieldset>
   </div>
-  <!--sistema filter-->
+  <!--sistema-->
   <div>
     <fieldset>
       <legend>&nbsp;Sistema&nbsp;</legend>
