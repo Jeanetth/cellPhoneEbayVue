@@ -58,7 +58,7 @@
             </div>
           </div>
           <!--Row de Cards-->
-          <div class="row" v-for="n in text" :key="n">
+          <div class="row" v-for="n in numPage" :key="n">
             <div class="col " v-for="n in 4" :key="n">
               <div class="col bg-primary q-ma-sm">
                 <CardsComponent />
@@ -66,10 +66,13 @@
             </div>
           </div>
           <div class="row">
-            <q-select square outlined v-model="model" :options="options" label="Square outlined"/>
+            <q-select square outlined v-model="numPage" :options="options" label="Square outlined" />
           </div>
         </div>
       </div>
+    </div>
+    <div class="lt-md">
+      <!--Solo para moviles-->
     </div>
       <div class="lt-md">
         <!--Solo para moviles-->
@@ -85,12 +88,15 @@ import CardsComponent from 'src/components/cardsComponent.vue'
 export default defineComponent({
   name: 'IndexPage',
   components: { MenuFilter, CardsComponent },
-  setup() {
+  setup () {
     return {
       text: ref(2),
       ordenarPor: ref(''),
       precio: ref(''),
-      hasta: ref('')
+      hasta: ref(''),
+      numPage: ref(2),
+      options: [8, 10, 12]
+
     }
   }
 })
