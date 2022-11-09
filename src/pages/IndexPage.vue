@@ -60,12 +60,16 @@
           <!--Row de Cards-->
           <div class="row" v-for="n in text" :key="n">
             <div class="col " v-for="n in 4" :key="n">
-            <div class="col bg-primary q-ma-sm"><CardsComponent/></div></div>
-            <div class="row">
-            <q-input v-model="text"></q-input></div>
+              <div class="col bg-primary q-ma-sm">
+                <CardsComponent />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <q-input v-model="text"></q-input>
+          </div>
         </div>
-          </div>
-          </div>
+      </div>
     </div>
     <div class="lt-md">
       <!--Solo para moviles-->
