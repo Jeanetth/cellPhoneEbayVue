@@ -66,7 +66,7 @@
             </div>
           </div>
           <div class="row">
-            <q-select square outlined v-model="numPage" :options="options" label="Square outlined" />
+            <q-select square outlined v-model="numPage" :options="options"/>
           </div>
         </div>
       </div>
@@ -74,9 +74,6 @@
     <div class="lt-md">
       <!--Solo para moviles-->
     </div>
-      <div class="lt-md">
-        <!--Solo para moviles-->
-      </div>
   </q-page>
 </template>
 
