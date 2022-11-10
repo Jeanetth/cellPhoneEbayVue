@@ -60,25 +60,14 @@
           <!--Row de Cards-->
           <div class="row" v-for="n in numerOfPage()" :key="n">
             <div class="col " v-for="i in 4" :key="i">
-              <div class="col bg-primary q-ma-sm">
+              <div class="col q-ma-sm">
                 <CardsComponent />
               </div>
             </div>
           </div>
           <div class="row flex-center">
             <div class="col-lg-5 col-md-8 q-my-lg">
-              <q-btn-group rounded>
-                <q-btn rounded color="primary" icon="arrow_back" />
-                <q-btn rounded color="primary" label="1" />
-                <q-btn rounded color="primary" label="2" />
-                <q-btn rounded color="primary" label="3" />
-                <q-btn rounded color="primary" label="4" />
-                <q-btn rounded color="primary" label="5" />
-                <q-btn rounded color="primary" label="6" />
-                <q-btn rounded color="primary" label="7" />
-                <q-btn rounded color="primary" label="8" />
-                <q-btn rounded color="primary" icon="arrow_forward"/>
-              </q-btn-group>
+              <paginationComp/>
             </div>
             <div class="col-lg-2 col-2 q-mt-md">
                   <spam>Articulos por pagina:</spam>
@@ -100,10 +89,11 @@
 import { defineComponent, ref } from 'vue'
 import MenuFilter from 'src/components/menuFilter.vue'
 import CardsComponent from 'src/components/cardsComponent.vue'
+import paginationComp from 'src/components/paginationComp.vue'
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { MenuFilter, CardsComponent },
+  components: { MenuFilter, CardsComponent, paginationComp },
   methods: {
     paginas () {
 
@@ -111,7 +101,6 @@ export default defineComponent({
   },
   setup () {
     return {
-      nFor: 0,
       text: ref(2),
       ordenarPor: ref(''),
       precio: ref(''),
