@@ -79,8 +79,44 @@
         </div>
       </div>
     </div>
+    <!--Solo para moviles-->
     <div class="lt-md">
-      <!--Solo para moviles-->
+      <div class="row q-ma-sm flex-center">
+        <div class="col">
+          <fieldset>
+            <legend>&nbsp;</legend>
+            <div class="row">
+              <div class="col">
+                <spam>Ordenar por:</spam>
+              </div>
+              <div class="col-5">
+                <q-select v-model="ordenPor" :options="optionsMobile"/>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="col">
+          <div class="q-mx-xl q-my-lg">
+            <q-btn color="purple-5" icon="filter_alt">
+              <q-menu>
+                <menuFilter/>
+              </q-menu>
+            </q-btn>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row" v-for="n in 4" :key="n">
+            <div class="col " v-for="i in 2" :key="i">
+              <div class="col q-ma-sm">
+                <CardsComponent />
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="row flex-center q-my-lg">
+          <paginationComp/>
+      </div>
     </div>
   </q-page>
  </template>
@@ -111,7 +147,11 @@ export default defineComponent({
       ],
       numerOfPage () {
         return this.selection / 4
-      }
+      },
+      ordenPor: ref('Precio'),
+      optionsMobile: [
+        'Precio', 'Fecha'
+      ]
     }
   }
 })
