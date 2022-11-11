@@ -74,10 +74,7 @@
     <div class="lt-md">
       <!--Solo para moviles-->
     </div>
-      <div class="lt-md">
-        <!--Solo para moviles-->
-      </div>
-  </q-page>
+    </q-page>
 </template>
 
 <script>
