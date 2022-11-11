@@ -58,15 +58,23 @@
             </div>
           </div>
           <!--Row de Cards-->
-          <div class="row" v-for="n in numPage" :key="n">
-            <div class="col " v-for="n in 4" :key="n">
-              <div class="col bg-primary q-ma-sm">
+          <div class="row" v-for="n in numerOfPage()" :key="n">
+            <div class="col " v-for="i in 4" :key="i">
+              <div class="col q-ma-sm">
                 <CardsComponent />
               </div>
             </div>
           </div>
-          <div class="row">
-            <q-select square outlined v-model="numPage" :options="options" label="Square outlined" />
+          <div class="row flex-center">
+            <div class="col-lg-5 col-md-8 q-my-lg">
+              <paginationComp/>
+            </div>
+            <div class="col-lg-2 col-2 q-mt-md">
+                  <spam>Articulos por pagina:</spam>
+              </div>
+            <div class="col-lg-1 col-1 q-my-lg   ">
+              <q-select square outlined v-model="selection" :options="options" />
+            </div>
           </div>
         </div>
       </div>
@@ -74,26 +82,36 @@
     <div class="lt-md">
       <!--Solo para moviles-->
     </div>
-    </q-page>
-</template>
+  </q-page>
+ </template>
 
 <script>
 import { defineComponent, ref } from 'vue'
 import MenuFilter from 'src/components/menuFilter.vue'
 import CardsComponent from 'src/components/cardsComponent.vue'
+import paginationComp from 'src/components/paginationComp.vue'
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { MenuFilter, CardsComponent },
+  components: { MenuFilter, CardsComponent, paginationComp },
+  methods: {
+    paginas () {
+
+    }
+  },
   setup () {
     return {
       text: ref(2),
       ordenarPor: ref(''),
       precio: ref(''),
       hasta: ref(''),
-      numPage: ref(2),
-      options: [8, 10, 12]
-
+      selection: ref(8),
+      options: [
+        4, 8, 16, 24
+      ],
+      numerOfPage () {
+        return this.selection / 4
+      }
     }
   }
 })
