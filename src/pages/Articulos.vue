@@ -110,19 +110,34 @@ con todos sus accesorios. Puedo mandar más
 fotos si desea por whatsapp</textarea>
     </div>
   </div>
+  <div class="row fixed-bottom">
+        <div class="col-10 text-center q-mx-lg">
+          <q-btn-group >
+      <q-btn color="purple" label="Inicio" spread @click="$router.push('/')" />
+      <q-btn color="purple" label="Comprar"   @click="showNotif"/>
+    </q-btn-group>
+        </div>
       </div>
-
+    </div>
 </template>
 <script>
 import { defineComponent, ref } from 'vue'
 import carruselArticulos from 'src/components/carruselArticulos.vue'
+import { useQuasar } from 'quasar'
 
 export default defineComponent({
   name: 'ArticuloProducto',
   components: { carruselArticulos },
   setup () {
+    const $q = useQuasar()
     return {
-      comprar: ref(false)
+      comprar: ref(false),
+      showNotif () {
+        $q.notify({
+          message: 'Jim pinged you.',
+          icon: 'announcement'
+        })
+      }
     }
   }
 })
