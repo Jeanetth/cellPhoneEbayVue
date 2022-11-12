@@ -2,17 +2,17 @@
   <fieldset>
     <legend>Imágenes</legend>
     <div class="row">
-      <div class="col text-center">
+      <div class="col-3 text-center">
         <input id="fileUpload" type="file" hidden />
         <q-btn round size="25px" color="purple" icon="add" class="q-my-lg" @click="chooseFiles()" />
         <br>
         <q-btn round size="25px" color="negative" icon="remove" class="q-my-lg" />
       </div>
-      <div class="col ">
-        <q-table :rows="rows" :columns="columns" row-key="name" hide-pagination />
+      <div class="col-5">
+        <q-table :rows="rows" :columns="columns" row-key="name"  card-class="bg-purple-5 text-black" hide-pagination />
       </div>
-      <div class="col">
-        <q-img class="q-ml-lg" :src="url" spinner-color="white" :ratio="1"
+      <div class="col-4">
+        <q-img class="q-mx-sm" :src="url" spinner-color="white" :ratio="1"
           @click="refresh" />
       </div>
     </div>
