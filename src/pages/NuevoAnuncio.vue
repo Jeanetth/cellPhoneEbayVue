@@ -30,11 +30,6 @@ import adDos from 'src/components/adDos.vue'
 
 export default defineComponent({
   name: 'nuevoAnuncio',
-  methods: {
-    chooseFiles: function () {
-      document.getElementById('fileUpload').click()
-    }
-  },
   components: { adUno, adDos }
 })
 </script>
