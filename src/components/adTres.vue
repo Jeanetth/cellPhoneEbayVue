@@ -53,7 +53,7 @@
     </div>
     <div class="col-md-6 col-5">
       <q-btn color="grey-4" @click="showNotif('center')" text-color="purple" glossy unelevated icon="save" label="Crear"
-        size="25px" href='/' />
+        size="25px" href='/'/>
     </div>
   </div>
 </template>

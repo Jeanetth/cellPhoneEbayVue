@@ -24,6 +24,7 @@
     </div>
     <div class="lt-md">
       <!--Solo para moviles-->
+      <adMobile/>
     </div>
   </q-page>
 </template>
@@ -33,9 +34,15 @@ import { defineComponent } from 'vue'
 import adUno from 'src/components/adUno.vue'
 import adDos from 'src/components/adDos.vue'
 import adTres from 'src/components/adTres.vue'
+import adMobile from 'src/components/adMobile.vue'
 
 export default defineComponent({
+  methods: {
+    chooseFiles: function () {
+      document.getElementById('fileUpload').click()
+    }
+  },
   name: 'nuevoAnuncio',
-  components: { adUno, adDos, adTres }
+  components: { adUno, adDos, adTres, adMobile }
 })
 </script>

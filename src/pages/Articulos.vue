@@ -1,7 +1,7 @@
 <template>
   <div class="gt-sm ">
   <div class="row">
-    <div class="col bg-purple">
+    <div class="col">
       <carruselArticulos />
     </div>
     <div class="col">
@@ -38,27 +38,37 @@
       </div>
     </div>
   </div>
-  <div class="row">
-        <div class="col text-center">
-          <h4>DESCRIPCION</h4>
+  <div class="row q-mb-lg flex-center">
+        <div class="col-8">
+          <h4 class="text-center">DESCRIPCION</h4>
           <div class="row">
             <div class="col">
-              <textarea rows="8" cols="50">Estado: Nuevo
-Marca: Iphone
-Modelo: 6 plus
-Pantalla: 7 pulgadas
-Sistema: Ios
-Rom: 64GB
-Ram: 2GB</textarea>
+              <fieldset>
+                  Estado: Nuevo
+                  <br>
+                  Marca: Iphone
+                  <br>
+                  Modelo: 6 plus
+                  <br>
+                  Pantalla: 7 pulgadas
+                  <br>
+                  Sistema: Ios
+                  <br>
+                  Rom: 64GB
+                  <br>
+                  Ram: 2GB
+              </fieldset>
             </div>
             <div class="col">
-              <textarea rows="8" cols="50">Telefono en muy buenas condiciones, tiene
-dos cámaras, la caja esta abierta, pero con
-muy poco uso, practicamente nuevo, la
-compañia con la que estaba es Tigo, asi que el
-chip debe ser tigo, viene con su caja original y
-con todos sus accesorios. Puedo mandar más
-fotos si desea por whatsapp</textarea>
+              <fieldset>
+                  Telefono en muy buenas condiciones, tiene
+                  dos cámaras, la caja esta abierta, pero con
+                  muy poco uso, practicamente nuevo, la
+                  compañia con la que estaba es Tigo, asi que el
+                  chip debe ser tigo, viene con su caja original y
+                  con todos sus accesorios. Puedo mandar más
+                  fotos si desea por whatsapp
+              </fieldset>
             </div>
           </div>
         </div>
@@ -91,23 +101,34 @@ fotos si desea por whatsapp</textarea>
   </div>
   <div class="row">
     <div class="col ">
-      <textarea rows="8" cols="50">Marca: Iphone
-Modelo: 6 plus
-Pantalla: 7 pulgadas
-Sistema: Ios
-Rom: 64GB
-Ram: 2GB</textarea>
+      <fieldset>
+                  Estado: Nuevo
+                  <br>
+                  Marca: Iphone
+                  <br>
+                  Modelo: 6 plus
+                  <br>
+                  Pantalla: 7 pulgadas
+                  <br>
+                  Sistema: Ios
+                  <br>
+                  Rom: 64GB
+                  <br>
+                  Ram: 2GB
+</fieldset>
     </div>
   </div>
   <div class="row">
     <div class="col ">
-      <textarea rows="8" cols="50">Telefono en muy buenas condiciones, tiene
+      <fieldset>
+        Telefono en muy buenas condiciones, tiene
 dos cámaras, la caja esta abierta, pero con
 muy poco uso, practicamente nuevo, la
 compañia con la que estaba es Tigo, asi que el
 chip debe ser tigo, viene con su caja original y
 con todos sus accesorios. Puedo mandar más
-fotos si desea por whatsapp</textarea>
+fotos si desea por whatsapp
+</fieldset>
     </div>
   </div>
   <div class="row fixed-bottom">
