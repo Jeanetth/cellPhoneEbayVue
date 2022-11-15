@@ -3,7 +3,7 @@
     <legend>Imágenes</legend>
     <div class="row">
       <div class="col-3 text-center">
-        <input id="fileUpload" type="file" hidden />
+        <input id="fileUpload" type="file" accept="image/*" hidden multiple/>
         <q-btn round size="25px" color="purple" icon="add" class="q-my-lg" @click="chooseFiles()" />
         <br>
         <q-btn round size="25px" color="negative" icon="remove" class="q-my-lg" />

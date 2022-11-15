@@ -1,6 +1,6 @@
 <template>
-  <q-page>
-    <div class="gt-sm bg-purple-3">
+  <q-page class="bg-purple-3">
+    <div class="gt-sm">
       <div class="row flex-center">
         <h3>NUEVO ANUNCIO</h3>
       </div>
@@ -17,25 +17,14 @@
             </div>
           </div>
         </div>
-        <div class="col bg-negative">
-          <div class="row">
-            <div class="col-12 bg-positive">
-             2
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12 bg-positive">
-             2
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12 bg-positive">
-             2
-            </div>
-          </div>
-
+        <div class="col ">
+          <adTres/>
         </div>
       </div>
+    </div>
+    <div class="lt-md">
+      <!--Solo para moviles-->
+      <adMobile/>
     </div>
   </q-page>
 </template>
@@ -44,9 +33,16 @@
 import { defineComponent } from 'vue'
 import adUno from 'src/components/adUno.vue'
 import adDos from 'src/components/adDos.vue'
+import adTres from 'src/components/adTres.vue'
+import adMobile from 'src/components/adMobile.vue'
 
 export default defineComponent({
+  methods: {
+    chooseFiles: function () {
+      document.getElementById('fileUpload').click()
+    }
+  },
   name: 'nuevoAnuncio',
-  components: { adUno, adDos }
+  components: { adUno, adDos, adTres, adMobile }
 })
 </script>

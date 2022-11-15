@@ -23,7 +23,7 @@
     <q-select v-model="sistema" class="q-my-lg" :options="optionsMobile" label="Sistema" />
     <q-input outlined v-model="rom" :dense="dense">
       <template v-slot:prepend>
-        <spam>Rom (almacenamiento Interno):</spam>
+        <spam>Rom:</spam>
       </template>
     </q-input>
     <q-input outlined v-model="ram" class="q-my-lg" :dense="dense">
