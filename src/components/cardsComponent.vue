@@ -12,12 +12,11 @@
       </q-card-section>
   </q-card>
 </template>
-<script>
-export default ({
-  setup () {
-    return {
-      lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    }
-  }
-})
+<script setup>
+import { ref } from 'vue'
+const articulosOriginal = [
+  { id: 'adsdadsadsa', precio: 24.55, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
+
+
+]
 </script>

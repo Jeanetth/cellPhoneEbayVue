@@ -58,12 +58,8 @@
             </div>
           </div>
           <!--Row de Cards-->
-          <div class="row" v-for="n in numerOfPage()" :key="n">
-            <div class="col " v-for="i in 4" :key="i">
-              <div class="col q-ma-sm">
-                <CardsComponent />
-              </div>
-            </div>
+          <div class="row" >
+            <CardsComponent  class="col-3 q-pa-sm" v-for="n in numerOfPage()" :key="n"/>
           </div>
           <div class="row flex-center">
             <div class="col-lg-5 col-md-8 q-my-lg">
@@ -105,14 +101,8 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="row" v-for="n in 4" :key="n">
-            <div class="col " v-for="i in 2" :key="i">
-              <div class="col q-ma-sm">
-                <CardsComponent />
-              </div>
-            </div>
-          </div>
+      <div class="row ">
+          <CardsComponent class="col-6 q-pa-sm" v-for="i in 4" :key="i"/>
       </div>
       <div class="row flex-center q-my-lg">
           <paginationComp/>
@@ -146,7 +136,7 @@ export default defineComponent({
         4, 8, 16, 24
       ],
       numerOfPage () {
-        return this.selection / 4
+        return this.selection
       },
       ordenPor: ref('Precio'),
       optionsMobile: [
