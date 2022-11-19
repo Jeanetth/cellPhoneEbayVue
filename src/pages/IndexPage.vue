@@ -18,18 +18,21 @@
                 <legend>&nbsp;</legend>
                 <div class="row">
                   <div class="col-5 q-mr-sm ">
-                    <q-input standout v-model="precio" type="number" min="0" prefix="Precio">
+                    <q-input standout v-model.number="desde" type="number" min="0" prefix="Precio">
                       <template v-slot:append>
                         <q-icon name="paid" />
                       </template>
                     </q-input>
                   </div>
                   <div class="col-5 q-mr-sm ">
-                    <q-input standout v-model="hasta" type="number" min="0" prefix="Hasta">
+                    <q-input standout v-model.number="hasta" type="number" min="0" prefix="Hasta">
                       <template v-slot:append>
                         <q-icon name="paid" />
                       </template>
                     </q-input>
+                  </div>
+                  <div class="col q-ma-sm">
+                    <q-btn round color="purple" icon="search" @click="filtrarPrecio" />
                   </div>
                 </div>
               </fieldset>
@@ -41,33 +44,31 @@
                   <div class="col-3 q-mt-md">
                     <spam>ordenado por</spam>
                   </div>
-                  <div class="col-3 q-ma-sm">
+                  <div class="col q-ma-sm">
                     <q-btn-toggle v-model="ordenarPor" spread icon="north" no-caps toggle-color="purple" color="white"
-                      text-color="black" :options="[
-                        { label: 'Precio', value: 'precio' }
-                      ]" />
-                  </div>
-                  <div class="col-3 q-ma-sm">
-                    <q-btn-toggle v-model="ordenarPor" spread no-caps toggle-color="purple" color="white"
-                      text-color="black" :options="[
-                        { label: 'Fecha', value: 'fecha' }
-                      ]" />
+                      text-color="black" :options="opcionesOrdenar" @click="Ordenar" />
                   </div>
                 </div>
               </fieldset>
             </div>
           </div>
           <!--Row de Cards-->
-          <div class="row" >
-            <CardsComponent  class="col-3 q-pa-sm" v-for="n in numerOfPage()" :key="n"/>
+          <div class="row">
+            <q-card class="col-3 q-pa-sm" v-for="(item, key) in articulos" :key="key">
+              <img @click="$router.push('Articulos')" src="https://cdn.quasar.dev/img/mountains.jpg">
+              <q-card-section>
+                <div class="text-h6">${{ item.precio }}</div>
+                <div class="text-subtitle2">{{ item.titulo }}</div>
+              </q-card-section>
+            </q-card>
           </div>
           <div class="row flex-center">
             <div class="col-lg-5 col-md-8 q-my-lg">
-              <paginationComp/>
+              <paginationComp />
             </div>
             <div class="col-lg-2 col-2 q-mt-md">
-                  <spam>Articulos por pagina:</spam>
-              </div>
+              <spam>Articulos por pagina:</spam>
+            </div>
             <div class="col-lg-1 col-1 q-my-lg   ">
               <q-select square outlined v-model="selection" :options="options" />
             </div>
@@ -86,7 +87,7 @@
                 <spam>Ordenar por:</spam>
               </div>
               <div class="col-5">
-                <q-select v-model="ordenPor" :options="optionsMobile"/>
+                <q-select v-model="ordenarPor" :options="opcionesOrdenar" @update:model-value="cambioSelectOrdenar" />
               </div>
             </div>
           </fieldset>
@@ -95,54 +96,87 @@
           <div class="q-mx-xl q-my-lg">
             <q-btn color="purple-5" icon="filter_alt">
               <q-menu>
-                <menuFilter/>
+                <menuFilter />
               </q-menu>
             </q-btn>
           </div>
         </div>
       </div>
       <div class="row ">
-          <CardsComponent class="col-6 q-pa-sm" v-for="i in 4" :key="i"/>
+        <q-card class="col-6 q-pa-sm" v-for="(item, key) in articulos" :key="key">
+          <img @click="$router.push('Articulos')" src="https://cdn.quasar.dev/img/mountains.jpg">
+          <q-card-section>
+            <div class="text-h6">${{ item.precio }}</div>
+            <div class="text-subtitle2">{{ item.titulo }}</div>
+          </q-card-section>
+        </q-card>
       </div>
       <div class="row flex-center q-my-lg">
-          <paginationComp/>
+        <paginationComp />
       </div>
     </div>
   </q-page>
- </template>
+</template>
 
-<script>
-import { defineComponent, ref } from 'vue'
+<script setup>
+import { ref, onMounted } from 'vue'
 import MenuFilter from 'src/components/menuFilter.vue'
-import CardsComponent from 'src/components/cardsComponent.vue'
 import paginationComp from 'src/components/paginationComp.vue'
 
-export default defineComponent({
-  name: 'IndexPage',
-  components: { MenuFilter, CardsComponent, paginationComp },
-  methods: {
-    paginas () {
-
-    }
-  },
-  setup () {
-    return {
-      text: ref(2),
-      ordenarPor: ref(''),
-      precio: ref(''),
-      hasta: ref(''),
-      selection: ref(8),
-      options: [
-        4, 8, 16, 24
-      ],
-      numerOfPage () {
-        return this.selection
-      },
-      ordenPor: ref('Precio'),
-      optionsMobile: [
-        'Precio', 'Fecha'
-      ]
-    }
+const ordenarPor = ref('')
+const opcionesOrdenar = ref([
+  { label: 'PRECIO', value: 'PRECIO' },
+  { label: 'FECHA', value: 'FECHA' }])
+const desde = ref(0)
+const hasta = ref(0)
+const articulosOriginal = [
+  { id: 'adsdadsadsa', precio: 20.1, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-07-22', telefono: '1321312-112' },
+  { id: 'adsdadsaerq', precio: 14.5, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
+  { id: 'adsdadqwerw', precio: 234.2, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
+  { id: 'adsdaqwreqa', precio: 50.4, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-09-23', telefono: '1321312-112' },
+  { id: 'adsdaqwerwe', precio: 213.3, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
+  { id: 'adsdaqwerwe', precio: 6321.2, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
+  { id: 'adsdadqwerw', precio: 123.4, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-18-22', telefono: '1321312-112' }
+]
+const articulos = ref([])
+// METODOS
+function filtrarPrecio () {
+  if (desde.value > 0 && hasta.value > 0) {
+    articulos.value = articulos.value.filter((item) => {
+      if (item.precio >= desde.value && item.precio <= hasta.value) {
+        return true
+      } else {
+        return false
+      }
+    })
   }
+}
+function cambioSelectOrdenar (value) {
+  ordenarPor.value = value.value
+  Ordenar()
+}
+function Ordenar () {
+  if (ordenarPor.value === 'PRECIO') {
+    articulos.value.sort((a, b) => a.precio - b.precio)
+  }
+  if (ordenarPor.value === 'FECHA') {
+    articulos.value.sort((a, b) => {
+      if (a.fecha < b.fecha) {
+        return -1
+      }
+      if (a.fecha > b.fecha) {
+        return 1
+      }
+      return 0
+    })
+  }
+}
+// CICLO DE VIDA
+onMounted(() => {
+  console.log(articulos.value.precio)
+  articulosOriginal.forEach(item => {
+    articulos.value.push(item)
+  })
 })
+
 </script>
