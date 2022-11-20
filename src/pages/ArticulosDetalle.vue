@@ -1,4 +1,5 @@
 <template>
+  <h6>{{route.params.idarticulo}}</h6>
   <div class="gt-sm ">
   <div class="row">
     <div class="col">
@@ -141,25 +142,9 @@ fotos si desea por whatsapp
       </div>
     </div>
 </template>
-<script>
-import { defineComponent, ref } from 'vue'
+<script setup>
 import carruselArticulos from 'src/components/carruselArticulos.vue'
-import { useQuasar } from 'quasar'
+import { useRoute } from 'vue-router'
+const route = useRoute()
 
-export default defineComponent({
-  name: 'ArticuloProducto',
-  components: { carruselArticulos },
-  setup () {
-    const $q = useQuasar()
-    return {
-      comprar: ref(false),
-      showNotif () {
-        $q.notify({
-          message: 'Jim pinged you.',
-          icon: 'announcement'
-        })
-      }
-    }
-  }
-})
 </script>

@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore('counter', {
+export const useCounterStore = defineStore('dataglobal', {
   state: () => ({
     counter: 0,
-    articulosData: []
+    filtroSistemas: []
   }),
 
   getters: {

@@ -45,14 +45,19 @@
         </q-item>
       </q-list>
     </fieldset>
+  <div class="q-ma-lg"></div>
+    <q-btn :ripple="false" color="purple-5" label="filtrar" no-caps icon="search" />
   </div>
+  <p>{{store.filtroSistemas}}</p>
 </template>
 <script>
 import { ref } from 'vue'
-
+import { useCounterStore } from 'stores/dataglobal'
+const store = useCounterStore()
 export default ({
   setup () {
     return {
+      store,
       nuevo: ref(false),
       marcas: ref([
         { label: 'Samsung', value: false, cantidad: 4 },
