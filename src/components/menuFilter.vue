@@ -45,38 +45,74 @@
         </q-item>
       </q-list>
     </fieldset>
-  <div class="q-ma-lg"></div>
-    <q-btn :ripple="false" color="purple-5" label="filtrar" no-caps icon="search" />
+    <div class="q-ma-lg"></div>
+    <q-btn @click="filtrar" :ripple="false" color="purple-5" label="filtrar" no-caps icon="search" />
   </div>
-  <p>{{store.filtroSistemas}}</p>
+  <p>{{ store.filtromarcas }}</p>
+  <p>{{ store.filtroSistemas }}</p>
+  <p>{{ store.filtropantallas }}</p>
 </template>
 <script>
 import { ref } from 'vue'
 import { useCounterStore } from 'stores/dataglobal'
+
 const store = useCounterStore()
+const marcas = ref([
+  { label: 'Samsung', value: false, cantidad: 4 },
+  { label: 'Huawei', value: false, cantidad: 4 },
+  { label: 'Nokia', value: false, cantidad: 4 },
+  { label: 'Iphone', value: false, cantidad: 4 },
+  { label: 'Xiaomi', value: false, cantidad: 4 }
+])
+const sistemas = ref([
+  { label: 'Android', value: false, cantidad: 10 },
+  { label: 'Windows', value: false, cantidad: 15 },
+  { label: 'Ios', value: false, cantidad: 20 }
+])
+const pantallas = ref([
+  { label: '6.0', value: false },
+  { label: '5.5', value: false },
+  { label: '5', value: false }
+])
+const filtrar = function () {
+  // marca
+  const valmarcas = []
+  marcas.value.forEach((item) => {
+    if (item.value) {
+      valmarcas.push(item.label)
+    }
+  })
+  store.filtromarcas = valmarcas
+  // sistema
+  const valSistemas = []
+  sistemas.value.forEach((item) => {
+    if (item.value) {
+      valSistemas.push(item.label)
+    }
+  })
+  store.filtroSistemas = valSistemas
+  // pantallas
+  const valpantallas = []
+  pantallas.value.forEach((item) => {
+    if (item.value) {
+      valpantallas.push(item.label)
+    }
+  })
+  store.filtropantallas = valpantallas
+}
+
 export default ({
   setup () {
     return {
       store,
       nuevo: ref(false),
-      marcas: ref([
-        { label: 'Samsung', value: false, cantidad: 4 },
-        { label: 'Huawei', value: false, cantidad: 4 },
-        { label: 'Nokia', value: false, cantidad: 4 },
-        { label: 'Iphone', value: false, cantidad: 4 },
-        { label: 'Xiaomi', value: false, cantidad: 4 }
-      ]),
-      sistemas: ref([
-        { label: 'android', value: false, cantidad: 10 },
-        { label: 'windows', value: false, cantidad: 15 },
-        { label: 'ios', value: false, cantidad: 20 }
-      ]),
-      pantallas: ref([
-        { label: '6.0', value: false },
-        { label: '5.5', value: false },
-        { label: '5', value: false }
-      ])
+      filtrar,
+      sistemas,
+      pantallas,
+      marcas
+
     }
   }
 })
+
 </script>

@@ -32,8 +32,9 @@
                     </q-input>
                   </div>
                   <div class="col q-ma-sm">
-                    <q-btn round color="purple" icon="search" @click="filtrarPrecio"  class="absolute " />
-                    <q-btn round color="purple" icon="close"  class="absolute" v-show="hayFiltro" @click="cargarDatosOriginales"/>
+                    <q-btn round color="purple" icon="search" @click="filtrarPrecio" class="absolute " />
+                    <q-btn round color="purple" icon="close" class="absolute" v-show="hayFiltro"
+                      @click="cargarDatosOriginales" />
                   </div>
                 </div>
               </fieldset>
@@ -62,7 +63,7 @@
                 <div class="text-subtitle2">{{ item.titulo }}</div>
               </q-card-section>
               <q-card-actions>
-                <q-btn flat :to="'/articulo/'+ item.id" color="purple">Ver detalles</q-btn>
+                <q-btn flat :to="'/articulo/' + item.id" color="purple">Ver detalles</q-btn>
               </q-card-actions>
             </q-card>
           </div>
@@ -123,10 +124,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import MenuFilter from 'src/components/menuFilter.vue'
 import paginationComp from 'src/components/paginationComp.vue'
-
+import { useCounterStore } from 'src/stores/dataglobal'
+const store = useCounterStore()
+const hayFiltrosMenu = computed(() => {
+  return store.filtroSistemas.length
+})
+watch(hayFiltrosMenu, (nuevo, viejo) => {
+  console.log('observador')
+  console.log(nuevo)
+  console.log(store.filtroSistemas)
+  filtrarPorMenu()
+})
 const ordenarPor = ref('')
 const opcionesOrdenar = ref([
   { label: 'PRECIO', value: 'PRECIO' },
@@ -134,13 +145,13 @@ const opcionesOrdenar = ref([
 const desde = ref(0)
 const hasta = ref(0)
 const articulosOriginal = [
-  { id: 'marian', precio: 20.1, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-07-22', telefono: '1321312-112' },
-  { id: 'adsdadsaerq', precio: 14.5, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
-  { id: 'adsdadqwerw', precio: 234.2, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
-  { id: 'adsdaqwreqa', precio: 50.4, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-09-23', telefono: '1321312-112' },
-  { id: 'adsdaqwerwe', precio: 213.3, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
-  { id: 'adsdaqwerwe', precio: 6321.2, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
-  { id: 'adsdadqwerw', precio: 123.4, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-18-22', telefono: '1321312-112' }
+  { id: 'marian', sistema: 'Android', precio: 20.1, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-07-22', telefono: '1321312-112' },
+  { id: 'adsdadsaerq', sistema: 'Ios', precio: 14.5, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
+  { id: 'adsdadqwerw', sistema: 'Android', precio: 234.2, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
+  { id: 'adsdaqwreqa', sistema: 'Ios', precio: 50.4, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-09-23', telefono: '1321312-112' },
+  { id: 'adsdaqwerwe', sistema: 'Windows', precio: 213.3, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
+  { id: 'adsdaqwerwe', sistema: 'Android', precio: 6321.2, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
+  { id: 'adsdadqwerw', sistema: 'Ios', precio: 123.4, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-18-22', telefono: '1321312-112' }
 ]
 const hayFiltro = ref(false)
 const articulos = ref([])
@@ -157,8 +168,19 @@ function filtrarPrecio () {
     })
   }
 }
+function filtrarPorMenu () {
+  hayFiltro.value = true
+  articulos.value = articulos.value.filter((item) => {
+    if (store.filtroSistemas.includes(item.sistema)) {
+      return true
+    } else {
+      return false
+    }
+  })
+}
 function cargarDatosOriginales () {
   articulos.value = []
+  store.filtroSistemas = []
   articulosOriginal.forEach(item => {
     articulos.value.push(item)
   })
