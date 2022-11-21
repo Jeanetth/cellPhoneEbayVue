@@ -56,7 +56,7 @@
           <!--Row de Cards-->
           <div class="row">
             <q-card class="col-3 q-pa-sm" v-for="(item, key) in articulos" :key="key">
-              <img @click="$router.push('Articulos')" src="https://cdn.quasar.dev/img/mountains.jpg">
+              <img src="https://cdn.quasar.dev/img/mountains.jpg">
               <q-card-section>
                 <div class="text-h6">${{ item.precio }}</div>
                 <div class="text-subtitle2">{{ item.titulo }}</div>
@@ -108,7 +108,7 @@
       </div>
       <div class="row ">
         <q-card class="col-6 q-pa-sm" v-for="(item, key) in articulos" :key="key">
-          <img @click="$router.push('Articulos')" src="https://cdn.quasar.dev/img/mountains.jpg">
+          <img src="https://cdn.quasar.dev/img/mountains.jpg">
           <q-card-section>
             <div class="text-h6">${{ item.precio }}</div>
             <div class="text-subtitle2">{{ item.titulo }}</div>
@@ -158,6 +158,7 @@ function filtrarPrecio () {
   }
 }
 function cargarDatosOriginales () {
+  articulos.value = []
   articulosOriginal.forEach(item => {
     articulos.value.push(item)
   })
