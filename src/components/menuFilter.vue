@@ -51,12 +51,16 @@
   <p>{{ store.filtromarcas }}</p>
   <p>{{ store.filtroSistemas }}</p>
   <p>{{ store.filtropantallas }}</p>
+  <p>{{store.filtroNuevo}}</p>
 </template>
 <script>
 import { ref } from 'vue'
 import { useCounterStore } from 'stores/dataglobal'
-
+import { db } from '@boot/database'
+import { collection, getDocs } from 'firebase/firestore'
+const nuevo = ref(false)
 const store = useCounterStore()
+
 const marcas = ref([
   { label: 'Samsung', value: false, cantidad: 4 },
   { label: 'Huawei', value: false, cantidad: 4 },
@@ -75,6 +79,8 @@ const pantallas = ref([
   { label: '5', value: false }
 ])
 const filtrar = function () {
+  // nuevo
+  store.filtroNuevo = nuevo
   // marca
   const valmarcas = []
   marcas.value.forEach((item) => {
@@ -100,12 +106,18 @@ const filtrar = function () {
   })
   store.filtropantallas = valpantallas
 }
+const cargarDatos = async function () {
+  const querySnapshot = await getDocs(collection(db, 'users'))
+  querySnapshot.forEach((doc) => {
+    console.log(`${doc.id} => ${doc.data()}`)
+  })
+}
 
 export default ({
   setup () {
     return {
       store,
-      nuevo: ref(false),
+      nuevo,
       filtrar,
       sistemas,
       pantallas,

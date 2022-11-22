@@ -5,7 +5,8 @@ export const useCounterStore = defineStore('dataglobal', {
     counter: 0,
     filtroSistemas: [],
     filtromarcas: [],
-    filtropantallas: []
+    filtropantallas: [],
+    filtroNuevo: false
   }),
 
   getters: {

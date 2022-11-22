@@ -155,7 +155,7 @@ const articulosOriginal = [
   { id: 'adsdaqwreqa', sistema: 'Ios', precio: 50.4, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-09-23', telefono: '1321312-112', marca: 'Iphone', pantalla: '6.0', nuevo: false },
   { id: 'adsdaqwerwe', sistema: 'Windows', precio: 213.3, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112', marca: 'Xiami', pantalla: '5.5', nuevo: false },
   { id: 'adsdaqwerwe', sistema: 'Android', precio: 6321.2, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112', marca: 'Samsung', pantalla: '5', nuevo: true },
-  { id: 'adsdadqwerw', sistema: 'Ios', precio: 123.4, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-18-22', telefono: '1321312-112', marca: 'Nokia', pantalla: '5.5' }
+  { id: 'adsdadqwerw', sistema: 'Ios', precio: 123.4, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-18-22', telefono: '1321312-112', marca: 'Nokia', pantalla: '5.5', nuevo: true }
 ]
 const hayFiltro = ref(false)
 const articulos = ref([])
