@@ -129,13 +129,17 @@ import MenuFilter from 'src/components/menuFilter.vue'
 import paginationComp from 'src/components/paginationComp.vue'
 import { useCounterStore } from 'src/stores/dataglobal'
 const store = useCounterStore()
+// eslint-disable-next-line vue/return-in-computed-property
 const hayFiltrosMenu = computed(() => {
-  return store.filtroSistemas.length
+  if (store.filtroSistemas.length > 0) {
+    return true
+  } else if (store.filtromarcas.length > 0) {
+    return true
+  } else if (store.filtropantallas.length) {
+    return true
+  }
 })
 watch(hayFiltrosMenu, (nuevo, viejo) => {
-  console.log('observador')
-  console.log(nuevo)
-  console.log(store.filtroSistemas)
   filtrarPorMenu()
 })
 const ordenarPor = ref('')
@@ -145,13 +149,13 @@ const opcionesOrdenar = ref([
 const desde = ref(0)
 const hasta = ref(0)
 const articulosOriginal = [
-  { id: 'marian', sistema: 'Android', precio: 20.1, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-07-22', telefono: '1321312-112' },
-  { id: 'adsdadsaerq', sistema: 'Ios', precio: 14.5, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
-  { id: 'adsdadqwerw', sistema: 'Android', precio: 234.2, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
-  { id: 'adsdaqwreqa', sistema: 'Ios', precio: 50.4, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-09-23', telefono: '1321312-112' },
-  { id: 'adsdaqwerwe', sistema: 'Windows', precio: 213.3, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
-  { id: 'adsdaqwerwe', sistema: 'Android', precio: 6321.2, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112' },
-  { id: 'adsdadqwerw', sistema: 'Ios', precio: 123.4, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-18-22', telefono: '1321312-112' }
+  { id: 'marian', sistema: 'Android', precio: 20.1, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-07-22', telefono: '1321312-112', marca: 'Samsung', pantalla: '6.0', nuevo: false },
+  { id: 'adsdadsaerq', sistema: 'Ios', precio: 14.5, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112', marca: 'Huawei', pantalla: '5.5', nuevo: true },
+  { id: 'adsdadqwerw', sistema: 'Android', precio: 234.2, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112', marca: 'Nokia', pantalla: '5', nuevo: false },
+  { id: 'adsdaqwreqa', sistema: 'Ios', precio: 50.4, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-09-23', telefono: '1321312-112', marca: 'Iphone', pantalla: '6.0', nuevo: false },
+  { id: 'adsdaqwerwe', sistema: 'Windows', precio: 213.3, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112', marca: 'Xiami', pantalla: '5.5', nuevo: false },
+  { id: 'adsdaqwerwe', sistema: 'Android', precio: 6321.2, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112', marca: 'Samsung', pantalla: '5', nuevo: true },
+  { id: 'adsdadqwerw', sistema: 'Ios', precio: 123.4, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-18-22', telefono: '1321312-112', marca: 'Nokia', pantalla: '5.5' }
 ]
 const hayFiltro = ref(false)
 const articulos = ref([])
@@ -169,22 +173,26 @@ function filtrarPrecio () {
   }
 }
 function filtrarPorMenu () {
-  hayFiltro.value = true
-  articulos.value = articulos.value.filter((item) => {
-    if (store.filtroSistemas.includes(item.sistema)) {
-      return true
-    } else {
-      return false
-    }
-  })
+  if (store.filtroSistemas.length > 0 || store.filtromarcas.length > 0 || store.filtropantallas.length > 0) {
+    hayFiltro.value = true
+    articulos.value = articulos.value.filter((item) => {
+      if (store.filtroSistemas.includes(item.sistema) || store.filtromarcas.includes(item.marca) || store.filtropantallas.includes(item.pantalla)) {
+        return true
+      } else {
+        return false
+      }
+    })
+  }
 }
 function cargarDatosOriginales () {
   articulos.value = []
   store.filtroSistemas = []
+  store.filtromarcas = []
+  store.filtropantallas = []
+  hayFiltro.value = false
   articulosOriginal.forEach(item => {
     articulos.value.push(item)
   })
-  hayFiltro.value = false
 }
 function cambioSelectOrdenar (value) {
   ordenarPor.value = value.value
