@@ -18,14 +18,14 @@
                 <legend>&nbsp;</legend>
                 <div class="row">
                   <div class="col-5 q-mr-sm ">
-                    <q-input standout v-model.number="desde" type="number" min="0" prefix="Precio">
+                    <q-input standout v-model.number="desde" type="number" min="0" prefix="Desde"  :rules="[ val => val > 0 || 'Por favor solo numero positivos']">
                       <template v-slot:append>
                         <q-icon name="paid" />
                       </template>
                     </q-input>
                   </div>
                   <div class="col-5 q-mr-sm ">
-                    <q-input standout v-model.number="hasta" type="number" min="0" prefix="Hasta">
+                    <q-input standout v-model.number="hasta" type="number" min="0" prefix="Hasta" :rules="[ val => val > 0 || 'Por favor solo numero positivos']">
                       <template v-slot:append>
                         <q-icon name="paid" />
                       </template>
@@ -99,7 +99,9 @@
         </div>
         <div class="col">
           <div class="q-mx-xl q-my-lg">
-            <q-btn color="purple-5" icon="filter_alt">
+            <q-btn round color="purple-5" icon="filter_alt" >
+            <q-btn round color="purple" icon="close" class="absolute" v-show="hayFiltro"
+                      @click="cargarDatosOriginales" />
               <q-menu>
                 <menuFilter />
               </q-menu>
@@ -114,6 +116,9 @@
             <div class="text-h6">${{ item.precio }}</div>
             <div class="text-subtitle2">{{ item.titulo }}</div>
           </q-card-section>
+          <q-card-actions>
+                <q-btn flat :to="'/articulo/' + item.id" color="purple">Ver detalles</q-btn>
+          </q-card-actions>
         </q-card>
       </div>
       <div class="row flex-center q-my-lg">
@@ -146,8 +151,8 @@ const ordenarPor = ref('')
 const opcionesOrdenar = ref([
   { label: 'PRECIO', value: 'PRECIO' },
   { label: 'FECHA', value: 'FECHA' }])
-const desde = ref(0)
-const hasta = ref(0)
+const desde = ref(null)
+const hasta = ref(null)
 const articulosOriginal = [
   { id: 'marian', sistema: 'Android', precio: 20.1, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-07-22', telefono: '1321312-112', marca: 'Samsung', pantalla: '6.0', nuevo: false },
   { id: 'adsdadsaerq', sistema: 'Ios', precio: 14.5, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112', marca: 'Huawei', pantalla: '5.5', nuevo: true },

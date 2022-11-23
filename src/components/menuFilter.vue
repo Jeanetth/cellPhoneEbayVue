@@ -56,8 +56,8 @@
 <script>
 import { ref } from 'vue'
 import { useCounterStore } from 'stores/dataglobal'
-import { db } from '@boot/database'
-import { collection, getDocs } from 'firebase/firestore'
+// import { db } from '@boot/database'
+// import { collection, getDocs } from 'firebase/firestore'
 const nuevo = ref(false)
 const store = useCounterStore()
 
@@ -106,12 +106,14 @@ const filtrar = function () {
   })
   store.filtropantallas = valpantallas
 }
+/*
 const cargarDatos = async function () {
   const querySnapshot = await getDocs(collection(db, 'users'))
   querySnapshot.forEach((doc) => {
     console.log(`${doc.id} => ${doc.data()}`)
   })
 }
+*/
 
 export default ({
   setup () {

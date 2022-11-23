@@ -133,10 +133,10 @@ fotos si desea por whatsapp
     </div>
   </div>
   <div class="row fixed-bottom">
-        <div class="col-10 text-center q-mx-lg">
+        <div class="col-10 text-center q-mb-sm q-ml-lg">
           <q-btn-group >
-      <q-btn color="purple" label="Inicio" spread @click="$router.push('/')" />
-      <q-btn color="purple" label="Comprar"   @click="showNotif"/>
+      <q-btn color="purple" label="Inicio" spread @click="$router.push('/')" size="xl" />
+      <q-btn color="purple" label="Comprar"   @click="showNotif" size="xl"/>
     </q-btn-group>
         </div>
       </div>
