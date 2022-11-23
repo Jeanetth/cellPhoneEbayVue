@@ -54,30 +54,16 @@
   <p>{{store.filtroNuevo}}</p>
 </template>
 <script>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useCounterStore } from 'stores/dataglobal'
-// import { db } from '@boot/database'
-// import { collection, getDocs } from 'firebase/firestore'
+import { db } from '../boot/database'
+import { collection, getDocs } from 'firebase/firestore'
 const nuevo = ref(false)
 const store = useCounterStore()
 
-const marcas = ref([
-  { label: 'Samsung', value: false, cantidad: 4 },
-  { label: 'Huawei', value: false, cantidad: 4 },
-  { label: 'Nokia', value: false, cantidad: 4 },
-  { label: 'Iphone', value: false, cantidad: 4 },
-  { label: 'Xiaomi', value: false, cantidad: 4 }
-])
-const sistemas = ref([
-  { label: 'Android', value: false, cantidad: 10 },
-  { label: 'Windows', value: false, cantidad: 15 },
-  { label: 'Ios', value: false, cantidad: 20 }
-])
-const pantallas = ref([
-  { label: '6.0', value: false },
-  { label: '5.5', value: false },
-  { label: '5', value: false }
-])
+const marcas = ref([])
+const sistemas = ref([])
+const pantallas = ref([])
 const filtrar = function () {
   // nuevo
   store.filtroNuevo = nuevo
@@ -106,25 +92,39 @@ const filtrar = function () {
   })
   store.filtropantallas = valpantallas
 }
-/*
 const cargarDatos = async function () {
-  const querySnapshot = await getDocs(collection(db, 'users'))
+  const querySnapshot = await getDocs(collection(db, 'marca'))
   querySnapshot.forEach((doc) => {
-    console.log(`${doc.id} => ${doc.data()}`)
+    console.log(doc.data().nombre)
+    marcas.value.push({ value: false, label: doc.data().nombre, cantidad: 25 })
+  })
+  const querySnapshotPantalla = await getDocs(collection(db, 'pantalla'))
+  querySnapshotPantalla.forEach((doc) => {
+    console.log(doc.data().nombre)
+    pantallas.value.push({ value: false, label: doc.data().nombre, cantidad: 25 })
+  })
+
+  const querySnapshotSistema = await getDocs(collection(db, 'sistema'))
+  querySnapshotSistema.forEach((doc) => {
+    console.log(doc.data().nombre)
+    sistemas.value.push({ value: false, label: doc.data().nombre, cantidad: 25 })
   })
 }
-*/
 
 export default ({
+  name: 'MenuFiltros',
   setup () {
+    onMounted(() => {
+      cargarDatos()
+    })
     return {
       store,
       nuevo,
       filtrar,
       sistemas,
       pantallas,
-      marcas
-
+      marcas,
+      cargarDatos
     }
   }
 })
