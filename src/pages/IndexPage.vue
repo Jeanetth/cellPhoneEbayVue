@@ -103,7 +103,7 @@
             <q-btn round color="purple" icon="close" class="absolute" v-show="hayFiltro"
                       @click="cargarDatosOriginales" />
               <q-menu>
-                <menuFilter />
+                <menuFilter/>
               </q-menu>
             </q-btn>
           </div>

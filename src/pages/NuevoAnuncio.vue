@@ -14,28 +14,24 @@
                 <q-radio v-model="estado" val="Nuevo" label="Nuevo" />
                 <q-radio v-model="estado" val="Usado" label="Usado" />
                 <br>
-                <q-input class="q-mt-lg" outlined v-model="marca" :dense="dense">
-                  <template v-slot:prepend>
-                    <spam>Marca:</spam>
-                  </template>
-                </q-input>
-                <q-input class="q-my-lg" outlined v-model="modelo" :dense="dense">
+                <q-input standout v-model.number="desde" type="text"  prefix="Marca"  :rules="[ val => val > 0 || 'Por favor solo numero positivos']"/>
+                <q-input class="q-my-lg" outlined v-model="modelo" :dense="dense" :rules="[val => !!val || 'Campo vacio']">
                   <template v-slot:prepend>
                     <spam>Modelo:</spam>
                   </template>
                 </q-input>
-                <q-input outlined v-model="pantalla" :dense="dense">
+                <q-input outlined v-model="pantalla" :dense="dense" :rules="[val => !!val || 'Campo vacio']">
                   <template v-slot:prepend>
                     <spam>Pantalla:</spam>
                   </template>
                 </q-input>
-                <q-select v-model="sistema" class="q-my-lg" :options="optionsMobile" label="Sistema" />
-                <q-input outlined v-model="rom" :dense="dense">
+                <q-select v-model="sistema" class="q-my-lg" :options="optionsMobile" label="Sistema" :rules="[val => val != null || 'Seleccione una opcion']"/>
+                <q-input outlined v-model="rom" :dense="dense" :rules="[val => !!val || 'Campo vacio']">
                   <template v-slot:prepend>
                     <spam>Rom:</spam>
                   </template>
                 </q-input>
-                <q-input outlined v-model="ram" class="q-my-lg" :dense="dense">
+                <q-input outlined v-model="ram" class="q-my-lg" :dense="dense" :rules="[val => !!val || 'Campo vacio']">
                   <template v-slot:prepend>
                     <spam>Ram:</spam>
                   </template>
@@ -75,12 +71,12 @@
           </div>
           <div class="row">
             <div class="col-9 ">
-              <q-input v-model="titulo" />
+              <q-input v-model="titulo" :rules="[val => !!val || 'Campo vacio']"/>
             </div>
           </div>
           <div class="row ">
             <div class="col-11 ">
-              <q-input class="q-mt-lg" outlined v-model="vendedor" :dense="dense">
+              <q-input class="q-mt-lg" outlined v-model="vendedor" :dense="dense" :rules="[val => !!val || 'Campo vacio']">
                 <template v-slot:prepend>
                   <spam>Vendedor:</spam>
                 </template>
@@ -89,7 +85,7 @@
           </div>
           <div class="row ">
             <div class="col-11 ">
-              <q-input class="q-mt-lg" outlined v-model="telefono" :dense="dense" type="number">
+              <q-input standout v-model.number="desde" type="number" min="0" >
                 <template v-slot:prepend>
                   <spam>Telefono:</spam>
                 </template>

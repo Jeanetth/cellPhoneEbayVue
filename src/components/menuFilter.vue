@@ -47,20 +47,20 @@
     </fieldset>
     <div class="q-ma-lg"></div>
     <q-btn @click="filtrar" :ripple="false" color="purple-5" label="filtrar" no-caps icon="search" />
+    <!--<q-btn @click="cargarDatos" label="probar" />-->
   </div>
   <p>{{ store.filtromarcas }}</p>
   <p>{{ store.filtroSistemas }}</p>
   <p>{{ store.filtropantallas }}</p>
   <p>{{store.filtroNuevo}}</p>
 </template>
-<script>
+<script setup>
 import { ref, onMounted } from 'vue'
 import { useCounterStore } from 'stores/dataglobal'
 import { db } from '../boot/database'
 import { collection, getDocs } from 'firebase/firestore'
 const nuevo = ref(false)
 const store = useCounterStore()
-
 const marcas = ref([])
 const sistemas = ref([])
 const pantallas = ref([])
@@ -92,41 +92,29 @@ const filtrar = function () {
   })
   store.filtropantallas = valpantallas
 }
-const cargarDatos = async function () {
-  const querySnapshot = await getDocs(collection(db, 'marca'))
-  querySnapshot.forEach((doc) => {
-    console.log(doc.data().nombre)
+const cargaData = async function () {
+  const marca = await getDocs(collection(db, 'marca'))
+  marca.forEach((doc) => {
+    console.log(doc.data())
     marcas.value.push({ value: false, label: doc.data().nombre, cantidad: 25 })
   })
-  const querySnapshotPantalla = await getDocs(collection(db, 'pantalla'))
-  querySnapshotPantalla.forEach((doc) => {
-    console.log(doc.data().nombre)
-    pantallas.value.push({ value: false, label: doc.data().nombre, cantidad: 25 })
-  })
 
-  const querySnapshotSistema = await getDocs(collection(db, 'sistema'))
-  querySnapshotSistema.forEach((doc) => {
+  const sistema = await getDocs(collection(db, 'sistemas'))
+  sistema.forEach((doc) => {
     console.log(doc.data().nombre)
     sistemas.value.push({ value: false, label: doc.data().nombre, cantidad: 25 })
   })
+
+  const pantalla = await getDocs(collection(db, 'pantallas'))
+  pantalla.forEach((doc) => {
+    console.log(doc.data().nombre)
+    pantallas.value.push({ value: false, label: doc.data().nombre, cantidad: 25 })
+  })
 }
 
-export default ({
-  name: 'MenuFiltros',
-  setup () {
-    onMounted(() => {
-      cargarDatos()
-    })
-    return {
-      store,
-      nuevo,
-      filtrar,
-      sistemas,
-      pantallas,
-      marcas,
-      cargarDatos
-    }
-  }
+onMounted(() => {
+  cargaData()
+  console.log('aqui ando')
 })
 
 </script>
