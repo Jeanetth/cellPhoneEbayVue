@@ -50,30 +50,41 @@
               <fieldset>
                 <legend>Imágenes</legend>
                 <div class="row">
-                  <div class="col-3 text-center">
+                  <div class="col-3 q-mt-xl">
                     <q-file
                       v-model="fotos"
-                      label="Pick files"
+                      label="Subir imagenes"
                       filled
                       multiple
                       style="max-width: 300px"
+                      control-color="primary"
                       id="fileUpload"
-                      class="hidden"
                       accept=".jpg, image/*"
+                      class="q-mt-xl"
                       @update:model-value="obtenerUrl"
                     />
-                    <input id="fileUpload" type="file" accept="image/*" hidden multiple />
-                    <q-btn round size="25px" color="purple" icon="add" class="q-my-lg" @click="chooseFiles()" />
+                    <!--<q-btn round size="25px" color="purple" icon="add" class="q-my-lg" @click="chooseFiles()" />-->
                     <br>
-                    <q-btn round size="25px" color="negative" icon="remove" class="q-my-lg" />
+                    <!--<q-btn round size="25px" color="negative" icon="remove" class="q-my-lg" />-->
                   </div>
-                  <div class="col-5">
+                  <div class="col-5 q-pl-md">
                     <q-table :rows="rows" :columns="columns" row-key="name" card-class="bg-purple-5 text-black"
                       hide-pagination />
                   </div>
-                  <div class="col-4">
+                  <div class="col-4 q-pl-md">
                     <!--Mostrar imagen-->
-                    <q-img class="q-mx-sm" :src="url" spinner-color="white" :ratio="1" @click="refresh" />
+                    <q-carousel
+                      animated
+                      v-model="slide"
+                      arrows
+                      navigation
+                      infinite
+                      control-color="purple"
+                      height="300px"
+                      v-if="fotosURL.length > 0"
+                    >
+                      <q-carousel-slide v-for="(img,id) in fotosURL" :key="id" :name="id+1" :img-src="img"/>
+                    </q-carousel>
                   </div>
                 </div>
               </fieldset>
@@ -157,8 +168,9 @@
             id="fileUpload"
             class="hidden"
             accept=".jpg, image/*"
+            @update:model-value="obtenerUrl"
           />
-          <q-btn round size="25px" color="purple" icon="add" class="q-my-lg" @click="chooseFiles()" />
+          <!--<q-btn round size="25px" color="purple" icon="add" class="q-my-lg" @click="chooseFiles()" />-->
         </div>
       </div>
       <div class="row flex-center">
@@ -263,11 +275,15 @@ import { db } from '../boot/database'
 import { collection, addDoc } from 'firebase/firestore'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
+import { getStorage, ref as ref2, uploadBytes } from 'firebase/storage'
 
 // variables
 const fotos = ref(null)
+const fotosURL = ref([])
+const slide = ref(1)
 const $q = useQuasar()
 const router = useRouter()
+const contaImg = ref(0)
 const columns = [
   { name: 'N', align: 'center', label: 'N', field: 'N', sortable: true },
   { name: 'Tamaño', align: 'center', label: 'Tamaño', field: 'Tamaño', sortable: true },
@@ -340,9 +356,11 @@ const precioRef0 = ref(null)
 const sistemaRef0 = ref(null)
 
 // Metodos
+/*
 const chooseFiles = function () {
   document.getElementById('fileUpload').click()
 }
+*/
 const guardarArticulo = async function () {
   marcaRef.value.validate()
   modeloRef.value.validate()
@@ -392,13 +410,35 @@ const subirArticulo = async function () {
 }
 const subirImagenes = function () {
   console.log('subir imagenes')
-  $q.notify({
-    message: 'Se guardo con exito',
-    color: 'purple',
-    icon: 'save',
-    position: 'center'
+  const storage = getStorage()
+  fotos.value.forEach((foto) => {
+    const storageRef = ref2(storage, idArticulo.value + '/' + foto.name)
+    uploadBytes(storageRef, foto).then((snapshot) => {
+      contaImg.value++
+      esLaUltima()
+      console.log('Uploaded a blob or file!')
+    })
   })
-  router.push('/')
+
+  const esLaUltima = function () {
+    if (contaImg.value === fotos.value.length) {
+      $q.notify({
+        message: 'Se guardo con exito',
+        color: 'purple',
+        icon: 'save',
+        position: 'center'
+      })
+      router.push('/')
+    }
+  }
+}
+const obtenerUrl = function () {
+  console.log('entreObtenerUrl')
+  if (fotos.value) {
+    fotos.value.forEach(element => {
+      fotosURL.value.push(URL.createObjectURL(element))
+    })
+  }
 }
 
 const resetear = function () {
