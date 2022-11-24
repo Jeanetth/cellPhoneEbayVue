@@ -217,7 +217,6 @@ function cargarImagenes () {
   console.log('entro imagen')
   console.log(articulosOriginal.value.length)
   articulosOriginal.value.forEach((arti) => {
-    console.log('arti aca estan' + arti)
     const listRef = refStorage(storage, arti.id)
     listAll(listRef)
       .then((res) => {

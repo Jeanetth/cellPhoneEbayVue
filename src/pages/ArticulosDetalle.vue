@@ -1,8 +1,17 @@
 <template>
   <div class="gt-sm ">
     <div class="row">
-      <div class="col">
-        <carruselArticulos />
+      <div class="col q-mt-lg q-mx-lg">
+        <q-carousel
+          animated
+          v-model="slide"
+          arrows
+          navigation
+          infinite
+          control-color="purple"
+          >
+          <q-carousel-slide v-for="(img,id) in imagenes" :key="id" :name="id+1" :img-src="img"/>
+        </q-carousel>
       </div>
       <div class="col">
         <!--primer fila-->
@@ -18,7 +27,7 @@
         </div>
         <div class="row">
           <div class="col-5 q-ma-lg ">
-            <q-btn color="grey-4" text-color="purple" glossy unelevated icon="monetization_on" label="Comprar" size="20px" />
+            <q-btn color="grey-4" @click="prueba"  text-color="purple" glossy unelevated icon="monetization_on" label="Comprar" size="20px" />
           </div>
         </div>
             <div class="row q-ma-lg">
@@ -132,12 +141,14 @@ import carruselArticulos from 'src/components/carruselArticulos.vue'
 import { useRoute } from 'vue-router'
 import { collection, getDocs } from 'firebase/firestore'
 import { db } from '../boot/database'
+import { getStorage, ref as refStorage, listAll, getDownloadURL } from 'firebase/storage'
 import { onMounted, ref } from 'vue'
 
 const route = useRoute()
 const count = ref(0)
 const articulo = ref([])
-
+const imagenes = ref([])
+const slide = ref(1)
 async function getData () {
   const querySnapshot = await getDocs(collection(db, 'articulos'))
   querySnapshot.forEach((doc) => {
@@ -148,11 +159,37 @@ async function getData () {
     }
   })
 }
+function prueba () {
+  console.log(articulo.value)
+}
+function getImage () {
+  const storage = getStorage()
+  const listRef = refStorage(storage, route.params.idarticulo)
+
+  // Find all the prefixes and items.
+  listAll(listRef)
+    .then((res) => {
+      res.items.forEach((itemRef) => {
+        console.log(itemRef.fullPath)
+        getDownloadURL(refStorage(storage, itemRef.fullPath))
+          .then((url) => {
+            // `url` is the download URL for 'images/stars.jpg'
+            imagenes.value.push(url)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      })
+    }).catch((error) => {
+      console.log(error)
+    })
+}
 
 onMounted(() => {
   console.log(route.params.idarticulo)
   console.log('entro')
   getData()
+  getImage()
 })
 
 </script>
