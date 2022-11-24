@@ -51,6 +51,17 @@
                 <legend>Imágenes</legend>
                 <div class="row">
                   <div class="col-3 text-center">
+                    <q-file
+                      v-model="fotos"
+                      label="Pick files"
+                      filled
+                      multiple
+                      style="max-width: 300px"
+                      id="fileUpload"
+                      class="hidden"
+                      accept=".jpg, image/*"
+                      @update:model-value="obtenerUrl"
+                    />
                     <input id="fileUpload" type="file" accept="image/*" hidden multiple />
                     <q-btn round size="25px" color="purple" icon="add" class="q-my-lg" @click="chooseFiles()" />
                     <br>
@@ -137,7 +148,16 @@
       <!--Solo para moviles-->
       <div class="row flex-center">
         <div class="col-11">
-          <input id="fileUpload" type="file" accept="image/*" hidden multiple />
+          <q-file
+            v-model="fotos"
+            label="Pick files"
+            filled
+            multiple
+            style="max-width: 300px"
+            id="fileUpload"
+            class="hidden"
+            accept=".jpg, image/*"
+          />
           <q-btn round size="25px" color="purple" icon="add" class="q-my-lg" @click="chooseFiles()" />
         </div>
       </div>
@@ -245,6 +265,7 @@ import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 
 // variables
+const fotos = ref(null)
 const $q = useQuasar()
 const router = useRouter()
 const columns = [
