@@ -71,7 +71,7 @@ const filtrar = function () {
   const valmarcas = []
   marcas.value.forEach((item) => {
     if (item.value) {
-      valmarcas.push(item.label)
+      valmarcas.push(item.label.toLowerCase())
     }
   })
   store.filtromarcas = valmarcas
@@ -79,7 +79,7 @@ const filtrar = function () {
   const valSistemas = []
   sistemas.value.forEach((item) => {
     if (item.value) {
-      valSistemas.push(item.label)
+      valSistemas.push(item.label.toLowerCase())
     }
   })
   store.filtroSistemas = valSistemas
@@ -87,7 +87,7 @@ const filtrar = function () {
   const valpantallas = []
   pantallas.value.forEach((item) => {
     if (item.value) {
-      valpantallas.push(item.label)
+      valpantallas.push(item.label.toLowerCase())
     }
   })
   store.filtropantallas = valpantallas

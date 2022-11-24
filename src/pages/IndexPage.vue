@@ -34,7 +34,7 @@
                   <div class="col q-ma-sm">
                     <q-btn round color="purple" icon="search" @click="filtrarPrecio" class="absolute " />
                     <q-btn round color="purple" icon="close" class="absolute" v-show="hayFiltro"
-                      @click="cargarDatosOriginales" />
+                      @click="limpiar" />
                   </div>
                 </div>
               </fieldset>
@@ -57,7 +57,7 @@
           <!--Row de Cards-->
           <div class="row">
             <q-card class="col-3 q-pa-sm" v-for="(item, key) in articulos" :key="key">
-              <img src="https://cdn.quasar.dev/img/mountains.jpg">
+              <img :src="item.urlImagen">
               <q-card-section>
                 <div class="text-h6">${{ item.precio }}</div>
                 <div class="text-subtitle2">{{ item.titulo }}</div>
@@ -135,7 +135,9 @@ import paginationComp from 'src/components/paginationComp.vue'
 import { useCounterStore } from 'src/stores/dataglobal'
 import { collection, getDocs } from 'firebase/firestore'
 import { db } from '../boot/database'
+import { getStorage, ref as refStorage, listAll, getDownloadURL } from 'firebase/storage'
 const store = useCounterStore()
+const storage = getStorage()
 // eslint-disable-next-line vue/return-in-computed-property
 const hayFiltrosMenu = computed(() => {
   if (store.filtroSistemas.length > 0) {
@@ -150,20 +152,13 @@ watch(hayFiltrosMenu, (nuevo, viejo) => {
   filtrarPorMenu()
 })
 const ordenarPor = ref('')
+const contadorCargarFotos = ref(0)
 const opcionesOrdenar = ref([
   { label: 'PRECIO', value: 'PRECIO' },
   { label: 'FECHA', value: 'FECHA' }])
 const desde = ref(null)
 const hasta = ref(null)
-let articulosOriginal = [
-  { id: 'marian', sistema: 'Android', precio: 20.1, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-07-22', telefono: '1321312-112', marca: 'Samsung', pantalla: '6.0', nuevo: false },
-  { id: 'adsdadsaerq', sistema: 'Ios', precio: 14.5, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112', marca: 'Huawei', pantalla: '5.5', nuevo: true },
-  { id: 'adsdadqwerw', sistema: 'Android', precio: 234.2, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112', marca: 'Nokia', pantalla: '5', nuevo: false },
-  { id: 'adsdaqwreqa', sistema: 'Ios', precio: 50.4, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-09-23', telefono: '1321312-112', marca: 'Iphone', pantalla: '6.0', nuevo: false },
-  { id: 'adsdaqwerwe', sistema: 'Windows', precio: 213.3, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112', marca: 'Xiami', pantalla: '5.5', nuevo: false },
-  { id: 'adsdaqwerwe', sistema: 'Android', precio: 6321.2, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112', marca: 'Samsung', pantalla: '5', nuevo: true },
-  { id: 'adsdadqwerw', sistema: 'Ios', precio: 123.4, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-18-22', telefono: '1321312-112', marca: 'Nokia', pantalla: '5.5', nuevo: true }
-]
+const articulosOriginal = ref([])
 const hayFiltro = ref(false)
 const articulos = ref([])
 // METODOS
@@ -180,10 +175,13 @@ function filtrarPrecio () {
   }
 }
 function filtrarPorMenu () {
+  console.log(store.filtromarcas[0].toLowerCase())
+  hayFiltro.value = true
   if (store.filtroSistemas.length > 0 || store.filtromarcas.length > 0 || store.filtropantallas.length > 0) {
-    hayFiltro.value = true
     articulos.value = articulos.value.filter((item) => {
-      if (store.filtroSistemas.includes(item.sistema) || store.filtromarcas.includes(item.marca) || store.filtropantallas.includes(item.pantalla)) {
+      if (store.filtroSistemas.includes(item.sistema.toLowerCase()) ||
+          store.filtromarcas.includes(item.marca.toLowerCase()) ||
+          store.filtropantallas.includes(item.pantalla.toLowerCase())) {
         return true
       } else {
         return false
@@ -191,21 +189,66 @@ function filtrarPorMenu () {
     })
   }
 }
+function limpiar () {
+  articulos.value = []
+  articulosOriginal.value.forEach((item) => {
+    articulos.value.push(item)
+  })
+  hayFiltro.value = false
+}
 async function cargarDatosOriginales () {
   articulos.value = []
   store.filtroSistemas = []
   store.filtromarcas = []
   store.filtropantallas = []
   hayFiltro.value = false
-  articulosOriginal = []
+  articulosOriginal.value = []
   const querySnapshot = await getDocs(collection(db, 'articulos'))
   querySnapshot.forEach((doc) => {
-    articulosOriginal.push(doc.data())
-    console.log(`${doc.id} => ${doc.data()}`)
+    const tupla = doc.data()
+    tupla.id = doc.id
+    articulosOriginal.value.push(tupla)
   })
-  articulosOriginal.forEach(item => {
-    articulos.value.push(item)
+
+  cargarImagenes()
+}
+
+function cargarImagenes () {
+  console.log('entro imagen')
+  console.log(articulosOriginal.value.length)
+  articulosOriginal.value.forEach((arti) => {
+    console.log('arti aca estan' + arti)
+    const listRef = refStorage(storage, arti.id)
+    listAll(listRef)
+      .then((res) => {
+        console.log(res.items)
+        if (res.items.length > 0) {
+          getDownloadURL(refStorage(storage, res.items[0].fullPath))
+            .then((url) => {
+              // `url` is the download URL for 'images/stars.jpg'
+              contadorCargarFotos.value++
+              arti.urlImagen = url
+              estanCompletasImagenes()
+              console.log('aca esta ' + url)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        } else {
+          contadorCargarFotos.value++
+          estanCompletasImagenes()
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
   })
+}
+function estanCompletasImagenes () {
+  if (contadorCargarFotos.value === articulosOriginal.value.length) {
+    articulosOriginal.value.forEach(item => {
+      articulos.value.push(item)
+    })
+  }
 }
 function cambioSelectOrdenar (value) {
   ordenarPor.value = value.value
@@ -227,6 +270,7 @@ function Ordenar () {
     })
   }
 }
+
 // CICLO DE VIDA
 onMounted(() => {
   cargarDatosOriginales()
