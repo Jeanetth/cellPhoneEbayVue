@@ -27,7 +27,7 @@
         </div>
         <div class="row">
           <div class="col-5 q-ma-lg ">
-            <q-btn color="grey-4" @click="prueba"  text-color="purple" glossy unelevated icon="monetization_on" label="Comprar" size="20px" />
+            <q-btn color="grey-4" @click="eliminarDb"  text-color="purple" glossy unelevated icon="monetization_on" label="Comprar" size="20px" />
           </div>
         </div>
             <div class="row q-ma-lg">
@@ -138,29 +138,49 @@
 </template>
 <script setup>
 import carruselArticulos from 'src/components/carruselArticulos.vue'
-import { useRoute } from 'vue-router'
-import { collection, getDocs } from 'firebase/firestore'
+import { useRoute, useRouter } from 'vue-router'
+import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../boot/database'
-import { getStorage, ref as refStorage, listAll, getDownloadURL } from 'firebase/storage'
+import { getStorage, ref as refStorage, listAll, getDownloadURL, deleteObject } from 'firebase/storage'
 import { onMounted, ref } from 'vue'
+import { useQuasar } from 'quasar'
 
 const route = useRoute()
+const router = useRouter()
 const count = ref(0)
 const articulo = ref([])
 const imagenes = ref([])
 const slide = ref(1)
+const $q = useQuasar()
+const imagenesRef = ref([])
+
 async function getData () {
   const querySnapshot = await getDocs(collection(db, 'articulos'))
   querySnapshot.forEach((doc) => {
     if ((route.params.idarticulo === doc.id) && count.value === 0) {
       count.value++
       articulo.value = doc.data()
-      console.log('entre UNA VEZZZZ  ' + doc.id + ' ' + route.params.idarticulo)
     }
   })
 }
-function prueba () {
-  console.log(articulo.value)
+async function eliminarDb () {
+  await deleteDoc(doc(db, 'articulos', route.params.idarticulo))
+  console.log('ejecutado con exito')
+  const storage = getStorage()
+  imagenesRef.value.forEach((item) => {
+    const desertRef = refStorage(storage, item)
+    deleteObject(desertRef).then(() => {
+    }).catch((error) => {
+      console.log(error)
+    })
+  })
+  $q.notify({
+    message: 'Comprada con exito',
+    color: 'purple',
+    icon: 'save',
+    position: 'center'
+  })
+  router.push('/')
 }
 function getImage () {
   const storage = getStorage()
@@ -170,6 +190,7 @@ function getImage () {
   listAll(listRef)
     .then((res) => {
       res.items.forEach((itemRef) => {
+        imagenesRef.value.push(itemRef.fullPath)
         console.log(itemRef.fullPath)
         getDownloadURL(refStorage(storage, itemRef.fullPath))
           .then((url) => {
