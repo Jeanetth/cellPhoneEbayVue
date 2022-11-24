@@ -239,10 +239,14 @@
 
 <script setup>
 import { ref } from 'vue'
-// import { db } from '../boot/database'
-// import { collection, addDoc } from 'firebase/firestore'
+import { db } from '../boot/database'
+import { collection, addDoc } from 'firebase/firestore'
+import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
 
 // variables
+const $q = useQuasar()
+const router = useRouter()
 const columns = [
   { name: 'N', align: 'center', label: 'N', field: 'N', sortable: true },
   { name: 'Tamaño', align: 'center', label: 'Tamaño', field: 'Tamaño', sortable: true },
@@ -286,6 +290,9 @@ const nuevo = ref({
   descripcion: '',
   precio: 0
 })
+
+const idArticulo = ref()
+
 const optionsMobile = ['android', 'windows', 'ios']
 const marcaRef = ref(null)
 const modeloRef = ref(null)
@@ -310,6 +317,7 @@ const telefonoRef0 = ref(null)
 const descripcionRef0 = ref(null)
 const precioRef0 = ref(null)
 const sistemaRef0 = ref(null)
+
 // Metodos
 const chooseFiles = function () {
   document.getElementById('fileUpload').click()
@@ -352,16 +360,26 @@ const guardarArticulo = async function () {
 }
 
 const subirArticulo = async function () {
-  /*
   try {
     const docRef = await addDoc(collection(db, 'articulos'), nuevo.value)
     console.log('Document written with ID: ', docRef.id)
     idArticulo.value = docRef.id
+    subirImagenes()
   } catch (e) {
     console.error('Error adding document:', e)
   }
-  */
 }
+const subirImagenes = function () {
+  console.log('subir imagenes')
+  $q.notify({
+    message: 'Se guardo con exito',
+    color: 'purple',
+    icon: 'save',
+    position: 'center'
+  })
+  router.push('/')
+}
+
 const resetear = function () {
   marcaRef.value.resetValidation()
   modeloRef.value.resetValidation()

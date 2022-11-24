@@ -133,6 +133,8 @@ import { ref, onMounted, computed, watch } from 'vue'
 import MenuFilter from 'src/components/menuFilter.vue'
 import paginationComp from 'src/components/paginationComp.vue'
 import { useCounterStore } from 'src/stores/dataglobal'
+import { collection, getDocs } from 'firebase/firestore'
+import { db } from '../boot/database'
 const store = useCounterStore()
 // eslint-disable-next-line vue/return-in-computed-property
 const hayFiltrosMenu = computed(() => {
@@ -153,7 +155,7 @@ const opcionesOrdenar = ref([
   { label: 'FECHA', value: 'FECHA' }])
 const desde = ref(null)
 const hasta = ref(null)
-const articulosOriginal = [
+let articulosOriginal = [
   { id: 'marian', sistema: 'Android', precio: 20.1, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-07-22', telefono: '1321312-112', marca: 'Samsung', pantalla: '6.0', nuevo: false },
   { id: 'adsdadsaerq', sistema: 'Ios', precio: 14.5, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112', marca: 'Huawei', pantalla: '5.5', nuevo: true },
   { id: 'adsdadqwerw', sistema: 'Android', precio: 234.2, titulo: 'Iphone 6 pantalla de 8 pulgadas, 64Gb internos, 2Gb de Ram, Sólo Banda Tigo, Nuevo', vendedor: 'Juan Perez', fecha: '20-11-22', telefono: '1321312-112', marca: 'Nokia', pantalla: '5', nuevo: false },
@@ -189,12 +191,18 @@ function filtrarPorMenu () {
     })
   }
 }
-function cargarDatosOriginales () {
+async function cargarDatosOriginales () {
   articulos.value = []
   store.filtroSistemas = []
   store.filtromarcas = []
   store.filtropantallas = []
   hayFiltro.value = false
+  articulosOriginal = []
+  const querySnapshot = await getDocs(collection(db, 'articulos'))
+  querySnapshot.forEach((doc) => {
+    articulosOriginal.push(doc.data())
+    console.log(`${doc.id} => ${doc.data()}`)
+  })
   articulosOriginal.forEach(item => {
     articulos.value.push(item)
   })
