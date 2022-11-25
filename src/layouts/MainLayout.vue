@@ -12,11 +12,7 @@
           </div>
           <div class="col-5">
               <q-input rounded outlined v-model="text">
-                <template v-slot:prepend>
-                  <q-avatar>
-                    <q-icon name="search" />
-                  </q-avatar>
-                </template>
+                <q-btn rounded flat  icon="search" @click="buscar"/>
               </q-input>
             </div>
           <div class="col-0.5  q-pa-lg">
@@ -91,10 +87,11 @@
   </q-layout>
   </div>
 </template>
-<script>
+<script set>
 import { defineComponent, ref } from 'vue'
 import MobileMenu from 'src/components/mobileMenu.vue'
-
+import { useCounterStore } from 'stores/dataglobal'
+const store = useCounterStore()
 const linksList = [
   {
     title: 'Inicio',
@@ -109,7 +106,7 @@ const linksList = [
     link: ''
   }
 ]
-
+const text = ref('')
 export default defineComponent({
   name: 'MainLayout',
 
@@ -122,6 +119,14 @@ export default defineComponent({
 
     return {
       essentialLinks: linksList,
+      text: ref(''),
+      buscar () {
+        console.log(text.value.length)
+        if (text.value.length > 0) {
+          console.log(text.value)
+          store.buscar = text.value
+        }
+      },
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value

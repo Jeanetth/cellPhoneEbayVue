@@ -64,34 +64,7 @@ const store = useCounterStore()
 const marcas = ref([])
 const sistemas = ref([])
 const pantallas = ref([])
-const filtrar = function () {
-  // nuevo
-  store.filtroNuevo = nuevo
-  // marca
-  const valmarcas = []
-  marcas.value.forEach((item) => {
-    if (item.value) {
-      valmarcas.push(item.label.toLowerCase())
-    }
-  })
-  store.filtromarcas = valmarcas
-  // sistema
-  const valSistemas = []
-  sistemas.value.forEach((item) => {
-    if (item.value) {
-      valSistemas.push(item.label.toLowerCase())
-    }
-  })
-  store.filtroSistemas = valSistemas
-  // pantallas
-  const valpantallas = []
-  pantallas.value.forEach((item) => {
-    if (item.value) {
-      valpantallas.push(item.label.toLowerCase())
-    }
-  })
-  store.filtropantallas = valpantallas
-}
+
 const cargaData = async function () {
   const marca = await getDocs(collection(db, 'marca'))
   marca.forEach((doc) => {
@@ -111,10 +84,39 @@ const cargaData = async function () {
     pantallas.value.push({ value: false, label: doc.data().nombre, cantidad: 25 })
   })
 }
-
+const filtrar = function () {
+  // nuevo
+  store.filtroNuevo = nuevo
+  // marca
+  const valmarcas = []
+  marcas.value.forEach((item) => {
+    if (item.value) {
+      valmarcas.push(item.label.toLowerCase())
+      item.value = false
+    }
+  })
+  store.filtromarcas = valmarcas
+  // sistema
+  const valSistemas = []
+  sistemas.value.forEach((item) => {
+    if (item.value) {
+      valSistemas.push(item.label.toLowerCase())
+      item.value = false
+    }
+  })
+  store.filtroSistemas = valSistemas
+  // pantallas
+  const valpantallas = []
+  pantallas.value.forEach((item) => {
+    if (item.value) {
+      valpantallas.push(item.label.toLowerCase())
+      item.value = false
+    }
+  })
+  store.filtropantallas = valpantallas
+}
 onMounted(() => {
   cargaData()
-  console.log('aqui ando')
 })
 
 </script>

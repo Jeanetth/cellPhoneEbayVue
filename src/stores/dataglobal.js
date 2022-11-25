@@ -6,7 +6,8 @@ export const useCounterStore = defineStore('dataglobal', {
     filtroSistemas: [],
     filtromarcas: [],
     filtropantallas: [],
-    filtroNuevo: false
+    filtroNuevo: false,
+    buscar: ''
   }),
 
   getters: {

@@ -175,7 +175,6 @@ function filtrarPrecio () {
   }
 }
 function filtrarPorMenu () {
-  console.log(store.filtromarcas[0].toLowerCase())
   hayFiltro.value = true
   if (store.filtroSistemas.length > 0 || store.filtromarcas.length > 0 || store.filtropantallas.length > 0) {
     articulos.value = articulos.value.filter((item) => {
@@ -194,6 +193,9 @@ function limpiar () {
   articulosOriginal.value.forEach((item) => {
     articulos.value.push(item)
   })
+  store.filtroSistemas = []
+  store.filtropantallas = []
+  store.filtromarcas = []
   hayFiltro.value = false
 }
 async function cargarDatosOriginales () {
