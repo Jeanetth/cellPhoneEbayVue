@@ -148,6 +148,18 @@ const hayFiltrosMenu = computed(() => {
     return true
   }
 })
+
+// eslint-disable-next-line vue/return-in-computed-property
+const hayBuscar = computed(() => {
+  if (store.buscar.length > 0) {
+    return true
+  }
+})
+
+watch(hayBuscar, (nuevo, viejo) => {
+  filtrarPorbuscar()
+})
+
 watch(hayFiltrosMenu, (nuevo, viejo) => {
   filtrarPorMenu()
 })
@@ -161,6 +173,7 @@ const hasta = ref(null)
 const articulosOriginal = ref([])
 const hayFiltro = ref(false)
 const articulos = ref([])
+const coincidencia = ref(true)
 // METODOS
 function filtrarPrecio () {
   if (desde.value > 0 && hasta.value > 0) {
@@ -188,6 +201,21 @@ function filtrarPorMenu () {
     })
   }
 }
+function filtrarPorbuscar () {
+  // console.log('entre a buscar')
+  hayFiltro.value = true
+  articulos.value = []
+  // const event = store.buscar
+  // console.log('cabal maje' + store.buscar.toLowerCase())
+  articulosOriginal.value.forEach((item) => {
+    console.log(item.titulo.toLowerCase().includes(store.buscar.toLowerCase()))
+    if (item.titulo.toLowerCase().includes(store.buscar.toLowerCase())) {
+      articulos.value.push(item)
+    } else {
+      coincidencia.value = false
+    }
+  })
+}
 function limpiar () {
   articulos.value = []
   articulosOriginal.value.forEach((item) => {
@@ -196,6 +224,7 @@ function limpiar () {
   store.filtroSistemas = []
   store.filtropantallas = []
   store.filtromarcas = []
+  store.buscar = ''
   hayFiltro.value = false
 }
 async function cargarDatosOriginales () {

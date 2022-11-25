@@ -87,7 +87,7 @@
   </q-layout>
   </div>
 </template>
-<script set>
+<script>
 import { defineComponent, ref } from 'vue'
 import MobileMenu from 'src/components/mobileMenu.vue'
 import { useCounterStore } from 'stores/dataglobal'
@@ -119,9 +119,8 @@ export default defineComponent({
 
     return {
       essentialLinks: linksList,
-      text: ref(''),
+      text,
       buscar () {
-        console.log(text.value.length)
         if (text.value.length > 0) {
           console.log(text.value)
           store.buscar = text.value
