@@ -80,8 +80,17 @@
   <!--Solo para moviles-->
   <div class="lt-md">
     <div class="row">
-      <div class="col">
-        <carruselArticulos></carruselArticulos>
+      <div class="col q-ma-lg">
+        <q-carousel
+          animated
+          v-model="slide"
+          arrows
+          navigation
+          infinite
+          control-color="purple"
+          >
+          <q-carousel-slide v-for="(img,id) in imagenes" :key="id" :name="id+1" :img-src="img"/>
+        </q-carousel>
       </div>
     </div>
     <div class="row q-mx-lg">
@@ -130,14 +139,13 @@
       <div class="col-10 text-center q-mb-sm q-ml-lg fixed-bottom">
         <q-btn-group>
           <q-btn color="purple" label="Inicio" spread @click="$router.push('/')" size="xl" />
-          <q-btn color="purple" label="Comprar" @click="showNotif" size="xl" />
+          <q-btn color="purple" label="Comprar" @click="eliminarDb" size="xl" />
         </q-btn-group>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import carruselArticulos from 'src/components/carruselArticulos.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../boot/database'

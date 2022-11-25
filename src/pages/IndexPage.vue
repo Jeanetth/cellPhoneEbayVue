@@ -100,15 +100,15 @@
       </div>
       <div class="row ">
         <q-card class="col-6 q-pa-sm" v-for="(item, key) in articulos" :key="key">
-          <img src="https://cdn.quasar.dev/img/mountains.jpg">
-          <q-card-section>
-            <div class="text-h6">${{ item.precio }}</div>
-            <div class="text-subtitle2">{{ item.titulo }}</div>
-          </q-card-section>
-          <q-card-actions>
+              <img :src="item.urlImagen">
+              <q-card-section>
+                <div class="text-h6">${{ item.precio }}</div>
+                <div class="text-subtitle2">{{ item.titulo }}</div>
+              </q-card-section>
+              <q-card-actions>
                 <q-btn flat :to="'/articulo/' + item.id" color="purple">Ver detalles</q-btn>
-          </q-card-actions>
-        </q-card>
+              </q-card-actions>
+          </q-card>
       </div>
     </div>
     <q-footer elevated>

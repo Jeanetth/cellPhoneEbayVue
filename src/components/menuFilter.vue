@@ -49,11 +49,6 @@
     <q-btn @click="filtrar" :ripple="false" color="purple-5" label="filtrar" no-caps icon="search" />
     <!--<q-btn @click="cargarDatos" label="probar" />-->
   </div>
-  <p>{{ store.filtromarcas }}</p>
-  <p>{{ store.filtroSistemas }}</p>
-  <p>{{ store.filtropantallas }}</p>
-  <p>{{store.filtroNuevo}}</p>
-  <p>{{store.nokia}}</p>
 </template>
 <script setup>
 import { ref, onMounted } from 'vue'
