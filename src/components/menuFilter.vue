@@ -53,6 +53,7 @@
   <p>{{ store.filtroSistemas }}</p>
   <p>{{ store.filtropantallas }}</p>
   <p>{{store.filtroNuevo}}</p>
+  <p>{{store.nokia}}</p>
 </template>
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -68,19 +69,16 @@ const pantallas = ref([])
 const cargaData = async function () {
   const marca = await getDocs(collection(db, 'marca'))
   marca.forEach((doc) => {
-    console.log(doc.data())
-    marcas.value.push({ value: false, label: doc.data().nombre, cantidad: 25 })
+    marcas.value.push({ value: false, label: doc.data().nombre, cantidad: doc.data().badge })
   })
 
   const sistema = await getDocs(collection(db, 'sistemas'))
   sistema.forEach((doc) => {
-    console.log(doc.data().nombre)
-    sistemas.value.push({ value: false, label: doc.data().nombre, cantidad: 25 })
+    sistemas.value.push({ value: false, label: doc.data().nombre, cantidad: doc.data().badge })
   })
 
   const pantalla = await getDocs(collection(db, 'pantallas'))
   pantalla.forEach((doc) => {
-    console.log(doc.data().nombre)
     pantallas.value.push({ value: false, label: doc.data().nombre, cantidad: 25 })
   })
 }

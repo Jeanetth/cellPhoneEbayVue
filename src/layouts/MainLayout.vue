@@ -22,9 +22,6 @@
             <q-btn round color="purple-5" icon="add" href="#/nuevoAnuncio"/>
           </div>
           <div class="col-1 q-pa-sm">
-            <q-btn round color="purple-5" icon="shopping_cart">
-            <q-badge color="orange" floating transparent >22</q-badge>
-            </q-btn>
           </div>
         </q-toolbar>
     </q-header>

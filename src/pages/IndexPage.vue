@@ -67,17 +67,6 @@
               </q-card-actions>
             </q-card>
           </div>
-          <div class="row flex-center">
-            <div class="col-lg-5 col-md-8 q-my-lg">
-              <paginationComp />
-            </div>
-            <div class="col-lg-2 col-2 q-mt-md">
-              <spam>Articulos por pagina:</spam>
-            </div>
-            <div class="col-lg-1 col-1 q-my-lg   ">
-              <q-select square outlined v-model="selection" :options="options" />
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -121,19 +110,20 @@
           </q-card-actions>
         </q-card>
       </div>
-      <div class="row flex-center q-my-lg">
-        <paginationComp />
-      </div>
     </div>
+    <q-footer elevated>
+        <q-toolbar class="glossy bg-purple-5">
+          <q-toolbar-title>Gochez Santos, Mariana Jeaneth gs20027<br>Perez Reyes, Moises Timoteo</q-toolbar-title>
+        </q-toolbar>
+    </q-footer>
   </q-page>
 </template>
 
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
 import MenuFilter from 'src/components/menuFilter.vue'
-import paginationComp from 'src/components/paginationComp.vue'
 import { useCounterStore } from 'src/stores/dataglobal'
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, doc, updateDoc } from 'firebase/firestore'
 import { db } from '../boot/database'
 import { getStorage, ref as refStorage, listAll, getDownloadURL } from 'firebase/storage'
 const store = useCounterStore()
@@ -164,6 +154,7 @@ watch(hayFiltrosMenu, (nuevo, viejo) => {
   filtrarPorMenu()
 })
 const ordenarPor = ref('')
+
 const contadorCargarFotos = ref(0)
 const opcionesOrdenar = ref([
   { label: 'PRECIO', value: 'PRECIO' },
@@ -174,7 +165,16 @@ const articulosOriginal = ref([])
 const hayFiltro = ref(false)
 const articulos = ref([])
 const coincidencia = ref(true)
+let nokia = 0
+let xiomi = 0
+let huawei = 0
+let samsung = 0
+let iphone = 0
+let ios = 0
+let android = 0
+let windows = 0
 // METODOS
+
 function filtrarPrecio () {
   if (desde.value > 0 && hasta.value > 0) {
     hayFiltro.value = true
@@ -208,8 +208,7 @@ function filtrarPorbuscar () {
   // const event = store.buscar
   // console.log('cabal maje' + store.buscar.toLowerCase())
   articulosOriginal.value.forEach((item) => {
-    console.log(item.titulo.toLowerCase().includes(store.buscar.toLowerCase()))
-    if (item.titulo.toLowerCase().includes(store.buscar.toLowerCase())) {
+    if (item.titulo.toLowerCase().includes(store.buscar.toLowerCase()) || item.descripcion.toLowerCase().includes(store.buscar.toLowerCase())) {
       articulos.value.push(item)
     } else {
       coincidencia.value = false
@@ -242,16 +241,14 @@ async function cargarDatosOriginales () {
   })
 
   cargarImagenes()
+  getBadge()
 }
 
 function cargarImagenes () {
-  console.log('entro imagen')
-  console.log(articulosOriginal.value.length)
   articulosOriginal.value.forEach((arti) => {
     const listRef = refStorage(storage, arti.id)
     listAll(listRef)
       .then((res) => {
-        console.log(res.items)
         if (res.items.length > 0) {
           getDownloadURL(refStorage(storage, res.items[0].fullPath))
             .then((url) => {
@@ -259,7 +256,6 @@ function cargarImagenes () {
               contadorCargarFotos.value++
               arti.urlImagen = url
               estanCompletasImagenes()
-              console.log('aca esta ' + url)
             })
             .catch((error) => {
               console.log(error)
@@ -300,7 +296,77 @@ function Ordenar () {
     })
   }
 }
-
+async function getBadge () {
+  articulosOriginal.value.forEach(async item => {
+    switch (item.marca.toLowerCase()) {
+      case 'nokia':
+        nokia++
+        break
+      case 'xiomi':
+        xiomi++
+        break
+      case 'huawei':
+        huawei++
+        break
+      case 'samsung':
+        samsung++
+        break
+      case 'iphone':
+        iphone++
+        break
+      default:
+        break
+    }
+  })
+  articulosOriginal.value.forEach((item) => {
+    console.log(item.sistema)
+    switch (item.sistema.toLowerCase()) {
+      case 'ios':
+        ios++
+        break
+      case 'android':
+        android++
+        break
+      case 'windows':
+        windows++
+        break
+      default:
+        break
+    }
+  })
+  const nokiaF = doc(db, 'marca', 'YoI9z0ViTaRHHqg2EWL0')
+  await updateDoc(nokiaF, {
+    badge: nokia
+  })
+  const xiomiF = doc(db, 'marca', 'kScgSFYfd2JQ1vT1iFBv')
+  await updateDoc(xiomiF, {
+    badge: xiomi
+  })
+  const huaweiF = doc(db, 'marca', 'ogY2Rorglfymr0bOoeZn')
+  await updateDoc(huaweiF, {
+    badge: huawei
+  })
+  const samsungF = doc(db, 'marca', 'q8RW0VkpSg2MCze4HK66')
+  await updateDoc(samsungF, {
+    badge: samsung
+  })
+  const iphoneF = doc(db, 'marca', 'uSPzI5e5qoXFISnz6Jnj')
+  await updateDoc(iphoneF, {
+    badge: iphone
+  })
+  const iosF = doc(db, 'sistemas', '1nfBRhKx8vboD7xUuuZA')
+  await updateDoc(iosF, {
+    badge: ios
+  })
+  const androidF = doc(db, 'sistemas', 'G4mP7SMQVVCo5EneYCmu')
+  await updateDoc(androidF, {
+    badge: android
+  })
+  const windowsF = doc(db, 'sistemas', 'TQzPuWpeoLvmTH2g0dU0')
+  await updateDoc(windowsF, {
+    badge: windows
+  })
+}
 // CICLO DE VIDA
 onMounted(() => {
   cargarDatosOriginales()
