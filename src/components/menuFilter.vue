@@ -79,7 +79,7 @@ const cargaData = async function () {
 }
 const filtrar = function () {
   // nuevo
-  store.filtroNuevo = nuevo
+  store.filtroNuevo = nuevo.value
   // marca
   const valmarcas = []
   marcas.value.forEach((item) => {

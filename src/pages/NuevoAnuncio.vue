@@ -31,7 +31,7 @@
                     <spam>Pantalla:</spam>
                   </template>
                 </q-input>
-                <q-select v-model="nuevo.sistema" class="q-my-lg" :options="optionsMobile" label="Sistema" :rules="[val => val != null || 'Seleccione una opcion']" ref="sistemaRef0"/>
+                <q-select v-model="nuevo.sistema" class="q-my-lg" :options="optionsMobile" label="Sistema"/>
                 <q-input outlined v-model="nuevo.rom" :dense="dense" :rules="[val => !!val || 'Campo vacio']" ref="romRef0">
                   <template v-slot:prepend>
                     <spam>Rom:</spam>
@@ -68,6 +68,14 @@
                     <!--<q-btn round size="25px" color="negative" icon="remove" class="q-my-lg" />-->
                   </div>
                   <div class="col-5 q-pl-md">
+                    <q-list bordered separator>
+                    <q-item v-for="(item, id) in fotoData" :key="id" clickable v-ripple>
+                      <q-item-section>
+                        <q-item-label>{{item}}</q-item-label>
+                        <q-item-label caption>Archivo {{id+1}}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
                   </div>
                   <div class="col-4 q-pl-md">
                     <!--Mostrar imagen-->
@@ -158,8 +166,9 @@
       <div class="row flex-center">
         <div class="col-11">
           <q-file
+            class="q-my-lg"
             v-model="fotos"
-            label="Pick files"
+            label="Subir imagenes"
             filled
             multiple
             style="max-width: 300px"
@@ -280,7 +289,7 @@ const slide = ref(1)
 const $q = useQuasar()
 const router = useRouter()
 const contaImg = ref(0)
-
+const fotoData = ref([])
 const nuevo = ref({
   estado: false,
   marca: '',
@@ -352,7 +361,6 @@ const guardarArticulo = async function () {
   telefonoRef0.value.validate()
   descripcionRef0.value.validate()
   precioRef0.value.validate()
-  sistemaRef0.value.validate()
   if (!marcaRef.value.hasError && !modeloRef.value.hasError &&
     !pantallaRef.value.hasError && !romRef.value.hasError &&
     !ramRef.value.hasError && !tituloRef.value.hasError && !vendedorRef.value.hasError &&
@@ -404,6 +412,7 @@ const obtenerUrl = function () {
   console.log('entreObtenerUrl')
   if (fotos.value) {
     fotos.value.forEach(element => {
+      fotoData.value.push(element.name)
       fotosURL.value.push(URL.createObjectURL(element))
     })
   }

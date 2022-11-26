@@ -48,12 +48,8 @@
         />
         <q-toolbar-title>
           <q-input rounded outlined v-model="text">
-              <template v-slot:prepend>
-                <q-avatar>
-                  <q-icon name="search" />
-                </q-avatar>
-              </template>
-            </q-input>
+              <q-btn rounded flat  icon="search" @click="buscar"/>
+          </q-input>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -106,14 +102,11 @@ const linksList = [
 const text = ref('')
 export default defineComponent({
   name: 'MainLayout',
-
   components: {
     MobileMenu
   },
-
   setup () {
     const leftDrawerOpen = ref(false)
-
     return {
       essentialLinks: linksList,
       text,

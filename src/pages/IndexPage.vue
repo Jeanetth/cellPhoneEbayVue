@@ -33,7 +33,7 @@
                   </div>
                   <div class="col q-ma-sm">
                     <q-btn round color="purple" icon="search" @click="filtrarPrecio" class="absolute " />
-                    <q-btn round color="purple" icon="close" class="absolute" v-show="hayFiltro"
+                    <q-btn round color="purple" icon="close" class="absolute" v-show="hayFiltro === true"
                       @click="limpiar" />
                   </div>
                 </div>
@@ -90,7 +90,7 @@
           <div class="q-mx-xl q-my-lg">
             <q-btn round color="purple-5" icon="filter_alt" >
             <q-btn round color="purple" icon="close" class="absolute" v-show="hayFiltro"
-                      @click="cargarDatosOriginales" />
+                      @click="limpiar" />
               <q-menu>
                 <menuFilter/>
               </q-menu>
@@ -112,7 +112,7 @@
       </div>
     </div>
     <q-footer elevated>
-        <q-toolbar class="glossy bg-purple-5">
+        <q-toolbar class="glossy bg-purple-4">
           <q-toolbar-title>Gochez Santos, Mariana Jeaneth gs20027<br>Perez Reyes, Moises Timoteo</q-toolbar-title>
         </q-toolbar>
     </q-footer>
@@ -136,6 +136,8 @@ const hayFiltrosMenu = computed(() => {
     return true
   } else if (store.filtropantallas.length) {
     return true
+  } else if (store.filtroNuevo) {
+    return true
   }
 })
 
@@ -151,6 +153,7 @@ watch(hayBuscar, (nuevo, viejo) => {
 })
 
 watch(hayFiltrosMenu, (nuevo, viejo) => {
+  console.log('entreeeeee')
   filtrarPorMenu()
 })
 const ordenarPor = ref('')
@@ -189,11 +192,11 @@ function filtrarPrecio () {
 }
 function filtrarPorMenu () {
   hayFiltro.value = true
-  if (store.filtroSistemas.length > 0 || store.filtromarcas.length > 0 || store.filtropantallas.length > 0) {
+  if (store.filtroSistemas.length > 0 || store.filtromarcas.length > 0 || store.filtropantallas.length > 0 || store.filtroNuevo) {
     articulos.value = articulos.value.filter((item) => {
       if (store.filtroSistemas.includes(item.sistema.toLowerCase()) ||
           store.filtromarcas.includes(item.marca.toLowerCase()) ||
-          store.filtropantallas.includes(item.pantalla.toLowerCase())) {
+          store.filtropantallas.includes(item.pantalla.toLowerCase()) || store.filtroNuevo === item.estado) {
         return true
       } else {
         return false
@@ -216,6 +219,7 @@ function filtrarPorbuscar () {
   })
 }
 function limpiar () {
+  hayFiltro.value = false
   articulos.value = []
   articulosOriginal.value.forEach((item) => {
     articulos.value.push(item)
@@ -224,7 +228,7 @@ function limpiar () {
   store.filtropantallas = []
   store.filtromarcas = []
   store.buscar = ''
-  hayFiltro.value = false
+  store.filtroNuevo = false
 }
 async function cargarDatosOriginales () {
   articulos.value = []

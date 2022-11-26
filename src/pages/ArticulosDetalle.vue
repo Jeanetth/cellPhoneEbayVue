@@ -170,6 +170,11 @@ async function getData () {
       articulo.value = doc.data()
     }
   })
+  if (articulo.value.estado) {
+    articulo.value.estado = 'Nuevo'
+  } else {
+    articulo.value.estado = 'Usado'
+  }
 }
 async function eliminarDb () {
   await deleteDoc(doc(db, 'articulos', route.params.idarticulo))
