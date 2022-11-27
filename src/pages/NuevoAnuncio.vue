@@ -318,7 +318,7 @@ const vendedorRef = ref(null)
 const telefonoRef = ref(null)
 const descripcionRef = ref(null)
 const precioRef = ref(null)
-const sistemaRef = ref(null)
+
 // Variables validacion pc
 const marcaRef0 = ref(null)
 const modeloRef0 = ref(null)
@@ -330,7 +330,6 @@ const vendedorRef0 = ref(null)
 const telefonoRef0 = ref(null)
 const descripcionRef0 = ref(null)
 const precioRef0 = ref(null)
-const sistemaRef0 = ref(null)
 
 // Metodos
 /*
@@ -349,7 +348,6 @@ const guardarArticulo = async function () {
   telefonoRef.value.validate()
   descripcionRef.value.validate()
   precioRef.value.validate()
-  sistemaRef.value.validate()
   // validacion telefono
   marcaRef0.value.validate()
   modeloRef0.value.validate()
@@ -364,11 +362,10 @@ const guardarArticulo = async function () {
   if (!marcaRef.value.hasError && !modeloRef.value.hasError &&
     !pantallaRef.value.hasError && !romRef.value.hasError &&
     !ramRef.value.hasError && !tituloRef.value.hasError && !vendedorRef.value.hasError &&
-    !telefonoRef.value.hasError && !descripcionRef.value.hasError && !precioRef.value.hasError && !sistemaRef.value.hasError &&
-    !marcaRef0.value.hasError && !modeloRef0.value.hasError &&
+    !telefonoRef.value.hasError && !descripcionRef.value.hasError && !precioRef.value.hasError && !marcaRef0.value.hasError && !modeloRef0.value.hasError &&
     !pantallaRef0.value.hasError && !romRef0.value.hasError &&
     !ramRef0.value.hasError && !tituloRef0.value.hasError && !vendedorRef0.value.hasError &&
-    !telefonoRef0.value.hasError && !descripcionRef0.value.hasError && !precioRef0.value.hasError && !sistemaRef0.value.hasError) {
+    !telefonoRef0.value.hasError && !descripcionRef0.value.hasError && !precioRef0.value.hasError) {
     console.log(nuevo.value)
     subirArticulo()
   }
